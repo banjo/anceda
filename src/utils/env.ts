@@ -37,6 +37,7 @@ const ServerEnvSchema = z.object({
         .default("development"),
     LOG_LEVEL: logLevelSchema,
     DATABASE_URL: z.string(),
+    VITE_SERVER_URL: z.string(),
 });
 
 const server = () => {

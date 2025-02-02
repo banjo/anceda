@@ -6,6 +6,7 @@ import { SidebarTrigger } from "../components/ui/sidebar";
 const RootComponent = () => {
     // @ts-ignore - Vite injects the env, but Env does not work here for some reason
     const isDev = import.meta.env?.DEV;
+
     return (
         <>
             <AppSidebar />
