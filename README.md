@@ -17,3 +17,8 @@ pnpm dev
 ```
 
 To develop UI, use Vite port `5173` locally. Do not use the default port `3009` as it won't have hot module reloading.
+
+## TODO
+
+- [ ] Change to Postgres
+- [ ] Add roles or organization
