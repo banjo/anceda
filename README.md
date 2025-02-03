@@ -2,6 +2,8 @@
 
 # Development
 
+> You need to have `Docker` installed on your machine to run the database locally.
+
 ```bash
 # Install dependencies
 pnpm install
@@ -12,13 +14,13 @@ chmod +x ./scripts/*
 # Generate prisma client
 pnpm db:generate
 
+# Start local database
+pnpm db:local:start
+
 # Start development server
 pnpm dev
 ```
 
-To develop UI, use Vite port `5173` locally. Do not use the default port `3009` as it won't have hot module reloading.
-
 ## TODO
 
-- [ ] Change to Postgres
 - [ ] Add roles or organization
