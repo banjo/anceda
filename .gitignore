@@ -3,7 +3,8 @@ dist
 coverage
 .env
 .git
-build
+build-api
+build-web
 .DS_Store
 .dev-files
 dev.db*
