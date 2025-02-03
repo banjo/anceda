@@ -47,7 +47,7 @@ export const createLogger = (name: string) => {
         {
             name,
             level: env.LOG_LEVEL ?? "info",
-            base,
+            ...base,
             errorKey: "error",
         },
         sharedTransport
