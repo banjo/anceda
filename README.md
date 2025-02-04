@@ -15,7 +15,7 @@ chmod +x ./scripts/*
 pnpm db:generate
 
 # Start local database
-pnpm db:local:start
+pnpm db:start
 
 # Start development server
 pnpm dev
