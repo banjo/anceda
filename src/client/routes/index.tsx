@@ -29,6 +29,22 @@ const Index = () => {
         console.log({ data, error });
     };
 
+    const onPermission = async () => {
+        const { data, error } = await authClient.organization.hasPermission({
+            permission: { organization: ["update"] },
+        });
+
+        console.log({ data, error });
+    };
+
+    const onCreateOrg = async () => {
+        const { data, error } = await authClient.organization.create({
+            name: "gotte",
+            slug: "gotte-boy",
+        });
+        console.log({ data, error });
+    };
+
     const { data: session, isPending, error } = authClient.useSession();
 
     console.log({ session, isPending, error });
@@ -42,6 +58,8 @@ const Index = () => {
                 <Button onClick={onClick}>Create</Button>
                 <Button onClick={onLogin}>Login</Button>
                 <Button onClick={onLogout}>Logout</Button>
+                <Button onClick={onPermission}>Permission</Button>
+                <Button onClick={onCreateOrg}>Create org</Button>
             </div>
 
             {session?.user?.email ? `Signed in to ${session?.user?.email}` : "Not signed in"}

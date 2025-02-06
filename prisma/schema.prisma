@@ -71,6 +71,11 @@ model Verification {
   @@map("verification")
 }
 
+enum OrganizationType {
+  Primary
+  Secondary
+}
+
 model Organization {
   id          String       @id
   name        String
@@ -80,6 +85,9 @@ model Organization {
   metadata    String?
   members     Member[]
   invitations Invitation[]
+
+  // Custom data
+  type OrganizationType @default(Primary)
 
   @@unique([slug])
   @@map("organization")
