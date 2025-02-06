@@ -1,5 +1,5 @@
 import { Env } from "@/utils/env";
-import { organizationClient } from "better-auth/client/plugins";
+import { adminClient, organizationClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { ac, roles } from "../access-control";
 
@@ -12,5 +12,6 @@ export const authClient = createAuthClient({
             ac,
             roles,
         }),
+        adminClient(),
     ],
 });
