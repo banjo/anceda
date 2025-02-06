@@ -57,9 +57,6 @@ CREATE TABLE "verification" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
-
--- CreateIndex
 CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
 
 -- AddForeignKey

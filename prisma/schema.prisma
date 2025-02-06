@@ -18,7 +18,6 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
-  @@unique([email])
   @@map("user")
 }
 
