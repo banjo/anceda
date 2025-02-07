@@ -17,11 +17,13 @@ export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
+    // databaseHooks: {},
     emailAndPassword: {
         enabled: true,
     },
     advanced: {
         crossSubDomainCookies: { enabled: true },
+        generateId: false, // database does this automatically
     },
     trustedOrigins: Config.trustedOrigins,
 });
