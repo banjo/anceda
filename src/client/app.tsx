@@ -1,12 +1,12 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
-import { QueryProvider } from "./common/providers/query-provider";
+import { QueryProvider } from "./core/providers/query-provider";
 import "./style.css";
 import { Toaster } from "react-hot-toast";
 
 import { routeTree } from "./routeTree.gen";
 import { SidebarProvider } from "./components/ui/sidebar";
-import { GlobalLoadingProvider } from "./common/providers/global-loading-provider";
+import { GlobalLoadingProvider } from "./core/providers/global-loading-provider";
 const router = createRouter({ routeTree });
 
 declare module "@tanstack/react-router" {

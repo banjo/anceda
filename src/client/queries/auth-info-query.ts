@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { client } from "../client";
-import { FetchService } from "../common/services/fetch-service";
-import { queryClient } from "../common/providers/query-provider";
+import { FetchService } from "../core/services/fetch-service";
+import { queryClient } from "../core/providers/query-provider";
 
 export const authInfoQueryKey = ["auth-info"];
 
