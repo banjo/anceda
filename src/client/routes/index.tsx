@@ -1,26 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "../components/ui/button";
 import { authClient } from "../auth-client";
+import { client } from "../client";
 
 const Index = () => {
-    const onClick = async () => {
-        const { data, error } = await authClient.signUp.email({
-            email: "test@example.com",
-            password: "password1234",
-            name: "test",
-            image: "https://example.com/image.png",
-        });
-
-        console.log({ data, error });
-    };
-
     const onLogin = async () => {
         const { data, error } = await authClient.signIn.email({
-            email: "test@example.com",
-            password: "password1234",
+            email: "test@test.com",
+            password: "123qweASD",
         });
 
         console.log({ data, error });
+
+        await authClient.organization.setActive({ organizationSlug: "anceda" });
     };
 
     const onLogout = async () => {
@@ -37,12 +29,10 @@ const Index = () => {
         console.log({ data, error });
     };
 
-    const onCreateOrg = async () => {
-        const { data, error } = await authClient.organization.create({
-            name: "gotte",
-            slug: "gotte-boy",
-        });
-        console.log({ data, error });
+    const onAdmin = async () => {
+        const res = await client.api.admin.organizations.$get();
+        const data = await res.json();
+        console.log({ data });
     };
 
     const { data: session, isPending, error } = authClient.useSession();
@@ -55,11 +45,10 @@ const Index = () => {
             </header>
 
             <div className="flex gap-2">
-                <Button onClick={onClick}>Create</Button>
                 <Button onClick={onLogin}>Login</Button>
                 <Button onClick={onLogout}>Logout</Button>
                 <Button onClick={onPermission}>Permission</Button>
-                <Button onClick={onCreateOrg}>Create org</Button>
+                <Button onClick={onAdmin}>Admin</Button>
             </div>
 
             {session?.user?.email ? `Signed in to ${session?.user?.email}` : "Not signed in"}

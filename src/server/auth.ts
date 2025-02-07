@@ -4,13 +4,14 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { admin, organization } from "better-auth/plugins";
 
-import { ac } from "../access-control";
+import { ac, roles } from "../access-control";
 
 const prisma = new PrismaClient();
 export const auth = betterAuth({
     plugins: [
         organization({
             ac,
+            roles,
         }),
         admin(),
     ],
@@ -27,3 +28,6 @@ export const auth = betterAuth({
     },
     trustedOrigins: Config.trustedOrigins,
 });
+
+export type ApiUser = typeof auth.$Infer.Session.user;
+export type ApiSession = typeof auth.$Infer.Session.session;
