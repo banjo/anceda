@@ -39,7 +39,7 @@ export const LoginContainer = () => {
     const { signIn } = useAuth();
     const navigate = useNavigate();
 
-    const onSubmit = async (values: AuthLogin) => {
+    const onSubmit = async ({ email, password }: AuthLogin) => {
         setIsLoading(true);
         setError(undefined);
 

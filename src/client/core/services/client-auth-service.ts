@@ -34,4 +34,4 @@ const signOut = async (): AsyncResultType<void> => {
     return Result.ok();
 };
 
-export const AuthClientService = { signIn, signOut };
+export const ClientAuthService = { signIn, signOut };

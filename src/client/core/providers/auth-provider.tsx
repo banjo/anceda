@@ -1,7 +1,7 @@
 import { authClient, AuthSession, AuthUser } from "@/client/auth-client";
-import { AuthClientService, SignInProps } from "@/client/core/services/auth-client-service";
+import { ClientAuthService, SignInProps } from "@/client/core/services/client-auth-service";
 import { AsyncResultType, Result } from "@/utils/result";
-import { isDefined, noop, noopAsync } from "@banjoanton/utils";
+import { isDefined } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";
 import {
     createContext,
@@ -51,12 +51,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     const signIn = useCallback(async (props: SignInProps) => {
         setAllowAuthentication(true);
-        return await AuthClientService.signIn(props);
+        return await ClientAuthService.signIn(props);
     }, []);
 
     const signOut = useCallback(async () => {
         setAllowAuthentication(false);
-        return await AuthClientService.signOut();
+        return await ClientAuthService.signOut();
     }, []);
 
     // this allows for instant sign out, a problem with better auth and tanstack router together (https://github.com/better-auth/better-auth/issues/1009)
