@@ -1,10 +1,10 @@
 import { Config } from "@/config";
+import { api } from "@/server/api/api";
+import { createPublicApiInstance } from "@/server/api/api-instance";
+import { NotFoundResponse } from "@/server/api/controller-model";
+import { auth } from "@/server/auth";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { api } from "./api/api";
-import { createPublicApiInstance } from "./api/api-instance";
-import { NotFoundResponse } from "./api/controller-model";
-import { auth } from "./auth";
 
 export const app = createPublicApiInstance()
     .use(logger())

@@ -1,7 +1,7 @@
 import { isBrowser } from "@banjoanton/utils";
 import pino, { TransportTargetOptions } from "pino";
 import { Env } from "./env";
-import { isProduction } from "./runtime";
+import { isProduction } from "@/utils/runtime";
 // * Pino import needs to be default to work in the browser
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

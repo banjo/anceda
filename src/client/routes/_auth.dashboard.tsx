@@ -1,9 +1,9 @@
+import { authClient } from "@/client/auth-client";
+import { client } from "@/client/client";
+import { Button } from "@/client/components/ui/button";
+import { useAuthActions } from "@/client/core/hooks/use-auth-actions";
+import { useAuth } from "@/client/core/providers/auth-provider";
 import { createFileRoute } from "@tanstack/react-router";
-import { authClient } from "../auth-client";
-import { client } from "../client";
-import { Button } from "../components/ui/button";
-import { useAuthActions } from "../core/hooks/use-auth-actions";
-import { useAuth } from "../core/providers/auth-provider";
 
 export const Route = createFileRoute("/_auth/dashboard")({
     component: Dashboard,

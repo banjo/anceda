@@ -1,6 +1,6 @@
+import { ApiSession, ApiUser } from "@/server/auth";
+import { parseRole, Role } from "@/server/core/models/role";
 import { Maybe } from "@banjoanton/utils";
-import { parseRole, Role } from "./role";
-import { ApiSession, ApiUser } from "../../auth";
 
 export type User = {
     name: string;

@@ -1,6 +1,6 @@
+import { ApiError } from "@/client/core/models/api-error";
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
-import { ApiError } from "../models/api-error";
 import toast from "react-hot-toast";
 
 export const queryClient = new QueryClient({

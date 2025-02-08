@@ -1,6 +1,6 @@
+import { useAuth } from "@/client/core/providers/auth-provider";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useAuth } from "../providers/auth-provider";
 
 /**
  * Redirects the user to the home page if they are not authenticated.

@@ -1,7 +1,7 @@
+import { AppSidebar } from "@/client/components/shared/sidebar";
+import { SidebarTrigger } from "@/client/components/ui/sidebar";
+import { useIsAuthRoute } from "@/client/core/hooks/use-is-auth-route";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { AppSidebar } from "../components/shared/sidebar";
-import { SidebarTrigger } from "../components/ui/sidebar";
-import { useIsAuthRoute } from "../core/hooks/use-is-auth-route";
 
 export const Route = createFileRoute("/_auth")({
     component: AuthLayout,

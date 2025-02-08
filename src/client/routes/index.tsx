@@ -1,9 +1,6 @@
+import { LoginForm } from "@/client/components/containers/login-container";
+import { useForceDashboardIfAuth } from "@/client/core/hooks/use-force-dashboard";
 import { createFileRoute } from "@tanstack/react-router";
-import { Button } from "../components/ui/button";
-import { useAuthActions } from "../core/hooks/use-auth-actions";
-import { useForceDashboardIfAuth } from "../core/hooks/use-force-dashboard";
-import { useAuth } from "../core/providers/auth-provider";
-import { LoginForm } from "../components/containers/login-container";
 
 export const Route = createFileRoute("/")({
     component: Index,

@@ -1,7 +1,7 @@
+import { authClient, AuthSession, AuthUser } from "@/client/auth-client";
 import { isDefined, noop } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
-import { authClient, AuthSession, AuthUser } from "../../auth-client";
+import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 
 type AuthBase = {
     isPending: boolean;

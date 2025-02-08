@@ -1,7 +1,7 @@
+import { useAuth } from "@/client/core/providers/auth-provider";
+import { AuthClientService, SignInProps } from "@/client/core/services/auth-client-service";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
-import { AuthClientService, SignInProps } from "../services/auth-client-service";
-import { useAuth } from "../providers/auth-provider";
 
 /**
  * Provides actions for authentication. Due to Tanstack Router, the auth context cannot

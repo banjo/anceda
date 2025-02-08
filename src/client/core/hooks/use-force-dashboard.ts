@@ -1,6 +1,6 @@
+import { useAuth } from "@/client/core/providers/auth-provider";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useAuth } from "../providers/auth-provider";
 
 export const useForceDashboardIfAuth = () => {
     const auth = useAuth();

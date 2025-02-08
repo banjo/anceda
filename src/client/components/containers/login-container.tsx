@@ -1,11 +1,18 @@
-import { useState } from "react";
-import { useAuthActions } from "../../core/hooks/use-auth-actions";
+import { Alert, AlertDescription } from "@/client/components/ui/alert";
+import { Button } from "@/client/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/client/components/ui/card";
+import { Input } from "@/client/components/ui/input";
+import { Label } from "@/client/components/ui/label";
+import { useAuthActions } from "@/client/core/hooks/use-auth-actions";
 import { useNavigate } from "@tanstack/react-router";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Alert, AlertDescription } from "../ui/alert";
+import { useState } from "react";
 
 // TODO: update this
 export function LoginForm() {

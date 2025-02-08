@@ -1,5 +1,4 @@
-import { redirect } from "@tanstack/react-router";
-import { authClient } from "../../auth-client";
+import { authClient } from "@/client/auth-client";
 
 export type SignInProps = {
     email: string;

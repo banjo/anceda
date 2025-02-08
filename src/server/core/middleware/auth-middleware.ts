@@ -1,7 +1,7 @@
+import { auth } from "@/server/auth";
+import { User } from "@/server/core/models/user";
+import { createLogger } from "@/utils/logger";
 import { createMiddleware } from "hono/factory";
-import { createLogger } from "../../../utils/logger";
-import { auth } from "../../auth";
-import { User } from "../models/user";
 
 const logger = createLogger("auth-middleware");
 

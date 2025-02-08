@@ -1,6 +1,6 @@
+import { UnauthorizedResponse } from "@/server/api/controller-model";
+import { createLogger } from "@/utils/logger";
 import { createMiddleware } from "hono/factory";
-import { createLogger } from "../../../utils/logger";
-import { UnauthorizedResponse } from "../../api/controller-model";
 
 const logger = createLogger("admin-middleware");
 

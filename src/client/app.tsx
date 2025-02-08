@@ -1,13 +1,15 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
-import { QueryProvider } from "./core/providers/query-provider";
 import "./style.css";
-
-import { SidebarProvider } from "./components/ui/sidebar";
-import { AuthProvider, useAuth } from "./core/providers/auth-provider";
-import { FullScreenLoading, GlobalLoadingProvider } from "./core/providers/global-loading-provider";
-import { routeTree } from "./routeTree.gen";
+import { SidebarProvider } from "@/client/components/ui/sidebar";
+import { AuthProvider, useAuth } from "@/client/core/providers/auth-provider";
+import {
+    FullScreenLoading,
+    GlobalLoadingProvider,
+} from "@/client/core/providers/global-loading-provider";
+import { QueryProvider } from "@/client/core/providers/query-provider";
+import { routeTree } from "@/client/routeTree.gen";
 
 const router = createRouter({
     routeTree,
