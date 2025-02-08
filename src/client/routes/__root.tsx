@@ -1,8 +1,12 @@
-import { createRootRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { AppSidebar } from "../components/shared/sidebar";
 import { SidebarTrigger } from "../components/ui/sidebar";
-import { useAuth } from "../core/providers/auth-provider";
+import { AuthData, useAuth } from "../core/providers/auth-provider";
+
+type RouterContext = {
+    auth: AuthData;
+};
 
 const RootComponent = () => {
     // @ts-ignore - Vite injects the env, but Env does not work here for some reason
@@ -21,7 +25,7 @@ const RootComponent = () => {
     );
 };
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterContext>()({
     component: () => <RootComponent />,
     onError: (error: unknown) => {
         console.log("Error", error);

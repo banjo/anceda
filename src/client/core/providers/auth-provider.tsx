@@ -1,14 +1,13 @@
+import { isDefined, noop } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 import { authClient, AuthSession, AuthUser } from "../../auth-client";
-import { AuthClientService, SignInProps } from "../services/auth-client-service";
-import { isDefined } from "@banjoanton/utils";
 
 type AuthBase = {
     isPending: boolean;
     error?: BetterFetchError;
-    signIn: (props: SignInProps) => Promise<void>;
-    signOut: () => Promise<void>;
+    handleSignOut: () => void;
+    handleSignIn: () => void;
 };
 
 type AuthenticatedResult = {
@@ -23,42 +22,65 @@ type UnauthenticatedResult = {
     session: undefined;
 };
 
-export type AuthHookResult = AuthBase & (AuthenticatedResult | UnauthenticatedResult);
+export type AuthData = AuthBase & (AuthenticatedResult | UnauthenticatedResult);
 
-const defaultAuthHooksResult: AuthHookResult = {
+const defaultAuthData: AuthData = {
     isAuthenticated: false,
     user: undefined,
     session: undefined,
     isPending: false,
-    signIn: AuthClientService.signIn,
-    signOut: AuthClientService.signOut,
+    handleSignOut: noop,
+    handleSignIn: noop,
 };
 
-const AuthContext = createContext<AuthHookResult>(defaultAuthHooksResult);
+const AuthContext = createContext<AuthData>(defaultAuthData);
 export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-    const session = authClient.useSession();
+    const auth = authClient.useSession();
 
-    const base: AuthBase = {
-        isPending: session.isPending,
-        error: session.error ?? undefined,
-        signIn: AuthClientService.signIn,
-        signOut: AuthClientService.signOut,
+    const isAuthenticated = isDefined(auth?.data?.user.id) ?? false;
+    const [signedOut, setSignedOut] = useState(() => !isAuthenticated);
+
+    const handleSignOut = () => {
+        setSignedOut(true);
     };
 
-    const isAuthenticated = isDefined(session?.data?.user.id) ?? false;
-    const sessionData = session?.data;
+    const handleSignIn = () => {
+        setSignedOut(false);
+    };
 
-    let contextValue: AuthHookResult = defaultAuthHooksResult;
+    const base: AuthBase = useMemo(
+        () => ({
+            isPending: auth.isPending,
+            error: auth.error ?? undefined,
+            handleSignOut,
+            handleSignIn,
+        }),
+        [auth.isPending, auth.error]
+    );
 
-    if (isAuthenticated && sessionData) {
-        contextValue = {
-            isAuthenticated: true,
-            user: sessionData.user,
-            session: sessionData.session,
+    // this allows instant sign out
+    const authData = signedOut ? undefined : auth?.data;
+
+    const contextValue: AuthData = useMemo(() => {
+        if (isAuthenticated && authData) {
+            return {
+                isAuthenticated: true,
+                user: authData.user,
+                session: authData.session,
+                ...base,
+            };
+        }
+
+        return {
+            isAuthenticated: false,
+            user: undefined,
+            session: undefined,
             ...base,
         };
-    }
+    }, [isAuthenticated, authData, base]);
+
+    console.log({ contextValue });
 
     return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

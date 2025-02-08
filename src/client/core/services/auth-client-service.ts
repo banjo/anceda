@@ -1,3 +1,4 @@
+import { redirect } from "@tanstack/react-router";
 import { authClient } from "../../auth-client";
 
 export type SignInProps = {
@@ -18,6 +19,8 @@ const signIn = async ({ email, password }: SignInProps) => {
 
 const signOut = async () => {
     const { data, error } = await authClient.signOut();
+
+    console.log({ data });
 
     // TODO: error check
 };
