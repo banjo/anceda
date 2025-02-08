@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/client/components/shared/sidebar";
+import { AppSidebar } from "@/client/components/shared/sidebar/sidebar";
 import { SidebarTrigger } from "@/client/components/ui/sidebar";
 import { useIsAuthRoute } from "@/client/core/hooks/use-is-auth-route";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
