@@ -15,3 +15,6 @@ export const authClient = createAuthClient({
         adminClient(),
     ],
 });
+
+export type AuthSession = typeof authClient.$Infer.Session.session;
+export type AuthUser = typeof authClient.$Infer.Session.user;

@@ -2,16 +2,18 @@ import { createRootRoute, Outlet, redirect } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { AppSidebar } from "../components/shared/sidebar";
 import { SidebarTrigger } from "../components/ui/sidebar";
+import { useAuth } from "../core/providers/auth-provider";
 
 const RootComponent = () => {
     // @ts-ignore - Vite injects the env, but Env does not work here for some reason
-    const isDev = import.meta.env?.DEV;
+    const isDev = import.meta.env?.DEV ?? false;
+    const { isAuthenticated } = useAuth();
 
     return (
         <>
-            <AppSidebar />
+            {isAuthenticated ? <AppSidebar /> : null}
             <main className="w-full">
-                <SidebarTrigger />
+                {isAuthenticated ? <SidebarTrigger /> : null}
                 <Outlet />
             </main>
             {isDev ? <TanStackRouterDevtools /> : null}
