@@ -1,7 +1,6 @@
 import { authClient } from "@/client/auth-client";
 import { client } from "@/client/client";
 import { Button } from "@/client/components/ui/button";
-import { useAuthActions } from "@/client/core/hooks/use-auth-actions";
 import { useAuth } from "@/client/core/providers/auth-provider";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -11,7 +10,7 @@ export const Route = createFileRoute("/_auth/dashboard")({
 
 function Dashboard() {
     const auth = useAuth();
-    const { signOut } = useAuthActions();
+    const { signOut } = useAuth();
 
     const onLogout = async () => {
         await signOut();

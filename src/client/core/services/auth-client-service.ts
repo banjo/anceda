@@ -1,27 +1,37 @@
 import { authClient } from "@/client/auth-client";
+import { AsyncResultType, Result } from "@/utils/result";
 
 export type SignInProps = {
     email: string;
     password: string;
 };
 
-const signIn = async ({ email, password }: SignInProps) => {
+const signIn = async ({ email, password }: SignInProps): AsyncResultType<void> => {
     const { data, error } = await authClient.signIn.email({
         email,
         password,
     });
 
-    // TODO: error check and fetch user data, get active organization, etc.
+    if (error) {
+        return Result.error(error.message ?? "Could not sign in");
+    }
 
+    // TODO: error check and fetch user data, get active organization, etc.
     await authClient.organization.setActive({ organizationSlug: "anceda" });
+
+    return Result.ok();
 };
 
-const signOut = async () => {
+const signOut = async (): AsyncResultType<void> => {
     const { data, error } = await authClient.signOut();
+
+    if (error) {
+        return Result.error(error.message ?? "Could not sign out");
+    }
 
     console.log({ data });
 
-    // TODO: error check
+    return Result.ok();
 };
 
 export const AuthClientService = { signIn, signOut };

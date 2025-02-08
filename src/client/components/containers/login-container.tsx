@@ -17,7 +17,7 @@ import {
     FormMessage,
 } from "@/client/components/ui/form";
 import { Input } from "@/client/components/ui/input";
-import { useAuthActions } from "@/client/core/hooks/use-auth-actions";
+import { useAuth } from "@/client/core/providers/auth-provider";
 import { AuthLogin, AuthLoginSchema } from "@/models/auth-login";
 import { Maybe } from "@banjoanton/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,20 +36,25 @@ export const LoginContainer = () => {
 
     const [error, setError] = useState<Maybe<string>>();
     const [isLoading, setIsLoading] = useState(false);
-    const { signIn } = useAuthActions();
+    const { signIn } = useAuth();
     const navigate = useNavigate();
 
     const onSubmit = async (values: AuthLogin) => {
         setIsLoading(true);
         setError(undefined);
 
-        await signIn({
+        const result = await signIn({
             email: "test@test.com",
             password: "123qweASD",
         });
 
-        await navigate({ to: "/dashboard" });
+        if (!result.success) {
+            setError(result.message);
+            setIsLoading(false);
+            return;
+        }
 
+        await navigate({ to: "/dashboard" });
         setIsLoading(false);
     };
 
@@ -83,7 +88,7 @@ export const LoginContainer = () => {
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
                                         <FormControl>
-                                            <Input {...field} />
+                                            <Input type="password" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

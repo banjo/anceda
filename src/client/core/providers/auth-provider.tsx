@@ -1,13 +1,22 @@
 import { authClient, AuthSession, AuthUser } from "@/client/auth-client";
-import { isDefined, noop } from "@banjoanton/utils";
+import { AuthClientService, SignInProps } from "@/client/core/services/auth-client-service";
+import { AsyncResultType, Result } from "@/utils/result";
+import { isDefined, noop, noopAsync } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";
-import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
+import {
+    createContext,
+    PropsWithChildren,
+    useCallback,
+    useContext,
+    useMemo,
+    useState,
+} from "react";
 
 type AuthBase = {
     isPending: boolean;
     error?: BetterFetchError;
-    handleSignOut: () => void;
-    handleSignIn: () => void;
+    signIn: (props: SignInProps) => AsyncResultType<void>;
+    signOut: () => AsyncResultType<void>;
 };
 
 type AuthenticatedResult = {
@@ -29,8 +38,8 @@ const defaultAuthData: AuthData = {
     user: undefined,
     session: undefined,
     isPending: false,
-    handleSignOut: noop,
-    handleSignIn: noop,
+    signIn: () => Promise.resolve(Result.ok()),
+    signOut: () => Promise.resolve(Result.ok()),
 };
 
 const AuthContext = createContext<AuthData>(defaultAuthData);
@@ -40,13 +49,15 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     const hasSession = isDefined(auth?.data?.session?.token);
     const [allowAuthentication, setAllowAuthentication] = useState(true);
 
-    const handleSignOut = () => {
-        setAllowAuthentication(false);
-    };
-
-    const handleSignIn = () => {
+    const signIn = useCallback(async (props: SignInProps) => {
         setAllowAuthentication(true);
-    };
+        return await AuthClientService.signIn(props);
+    }, []);
+
+    const signOut = useCallback(async () => {
+        setAllowAuthentication(false);
+        return await AuthClientService.signOut();
+    }, []);
 
     // this allows for instant sign out, a problem with better auth and tanstack router together (https://github.com/better-auth/better-auth/issues/1009)
     const isAuthenticatedLocally = useMemo(() => {
@@ -63,10 +74,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         () => ({
             isPending: auth.isPending,
             error: auth.error ?? undefined,
-            handleSignOut,
-            handleSignIn,
+            signIn,
+            signOut,
         }),
-        [auth.isPending, auth.error]
+        [auth.isPending, auth.error, signIn, signOut]
     );
 
     const authData = auth?.data ?? undefined;
