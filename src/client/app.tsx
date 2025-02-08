@@ -6,7 +6,7 @@ import "./style.css";
 
 import { SidebarProvider } from "./components/ui/sidebar";
 import { AuthProvider, useAuth } from "./core/providers/auth-provider";
-import { GlobalLoadingProvider } from "./core/providers/global-loading-provider";
+import { FullScreenLoading, GlobalLoadingProvider } from "./core/providers/global-loading-provider";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
@@ -28,7 +28,7 @@ const InnerApp = () => {
     const session = useAuth();
 
     if (session.isPending && isFirstLoad) {
-        return <div>Loading...</div>;
+        return <FullScreenLoading isLoading text="Loading..." />;
     }
 
     isFirstLoad = false;

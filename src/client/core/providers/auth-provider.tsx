@@ -1,6 +1,6 @@
 import { isDefined, noop } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";
-import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 import { authClient, AuthSession, AuthUser } from "../../auth-client";
 
 type AuthBase = {
@@ -37,17 +37,27 @@ const AuthContext = createContext<AuthData>(defaultAuthData);
 export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: PropsWithChildren) => {
     const auth = authClient.useSession();
-
-    const isAuthenticated = isDefined(auth?.data?.user.id) ?? false;
-    const [signedOut, setSignedOut] = useState(() => !isAuthenticated);
+    const hasSession = isDefined(auth?.data?.session?.token);
+    const [allowAuthentication, setAllowAuthentication] = useState(true);
 
     const handleSignOut = () => {
-        setSignedOut(true);
+        setAllowAuthentication(false);
     };
 
     const handleSignIn = () => {
-        setSignedOut(false);
+        setAllowAuthentication(true);
     };
+
+    // this allows for instant sign out, a problem with better auth and tanstack router together (https://github.com/better-auth/better-auth/issues/1009)
+    const isAuthenticatedLocally = useMemo(() => {
+        if (hasSession && !allowAuthentication) {
+            return false;
+        }
+
+        return hasSession;
+    }, [hasSession, allowAuthentication]);
+
+    const isAuthenticated = isAuthenticatedLocally ? hasSession : false;
 
     const base: AuthBase = useMemo(
         () => ({
@@ -59,9 +69,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         [auth.isPending, auth.error]
     );
 
-    // this allows instant sign out
-    const authData = signedOut ? undefined : auth?.data;
-
+    const authData = auth?.data ?? undefined;
     const contextValue: AuthData = useMemo(() => {
         if (isAuthenticated && authData) {
             return {
@@ -79,8 +87,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
             ...base,
         };
     }, [isAuthenticated, authData, base]);
-
-    console.log({ contextValue });
 
     return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

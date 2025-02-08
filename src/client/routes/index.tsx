@@ -1,11 +1,26 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Button } from "../components/ui/button";
 import { useAuthActions } from "../core/hooks/use-auth-actions";
 import { useAuth } from "../core/providers/auth-provider";
+import { useEffect } from "react";
 
-const Index = () => {
+export const Route = createFileRoute("/")({
+    component: Index,
+    // loader: async () => {
+    //     await Promise.all([allAppsEnsureData, systemInformationEnsureData, authInfoEnsureData]);
+    // },
+});
+
+function Index() {
     const auth = useAuth();
+    const navigate = useNavigate();
     const { signIn } = useAuthActions();
+
+    useEffect(() => {
+        if (!auth.isPending && auth.isAuthenticated) {
+            navigate({ to: "/dashboard" });
+        }
+    }, [auth, navigate]);
 
     const onLogin = async () => {
         await signIn({
@@ -27,19 +42,4 @@ const Index = () => {
             {auth.isAuthenticated ? `Signed in to ${auth.user.email}` : "Not signed in"}
         </div>
     );
-};
-
-export const Route = createFileRoute("/")({
-    component: Index,
-    beforeLoad: async ({ context }) => {
-        console.log("index", { context });
-        if (context.auth.isAuthenticated) {
-            throw redirect({
-                to: "/dashboard",
-            });
-        }
-    },
-    // loader: async () => {
-    //     await Promise.all([allAppsEnsureData, systemInformationEnsureData, authInfoEnsureData]);
-    // },
-});
+}
