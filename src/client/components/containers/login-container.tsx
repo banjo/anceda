@@ -8,22 +8,40 @@ import {
     CardHeader,
     CardTitle,
 } from "@/client/components/ui/card";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/client/components/ui/form";
 import { Input } from "@/client/components/ui/input";
-import { Label } from "@/client/components/ui/label";
 import { useAuthActions } from "@/client/core/hooks/use-auth-actions";
+import { AuthLogin, AuthLoginSchema } from "@/models/auth-login";
+import { Maybe } from "@banjoanton/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-// TODO: update this
-export function LoginForm() {
-    const [error, setError] = useState<string | null>(null);
+export const LoginContainer = () => {
+    const form = useForm<AuthLogin>({
+        resolver: zodResolver(AuthLoginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
+
+    const [error, setError] = useState<Maybe<string>>();
     const [isLoading, setIsLoading] = useState(false);
     const { signIn } = useAuthActions();
     const navigate = useNavigate();
 
-    const handleSubmit = async () => {
+    const onSubmit = async (values: AuthLogin) => {
         setIsLoading(true);
-        setError(null);
+        setError(undefined);
 
         await signIn({
             email: "test@test.com",
@@ -42,47 +60,49 @@ export function LoginForm() {
                 <CardDescription>Enter your email and password to log in</CardDescription>
             </CardHeader>
             <CardContent>
-                <form>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
+                <Form {...form}>
+                    <form id="login-form" onSubmit={form.handleSubmit(onSubmit)}>
+                        <div className="grid w-full items-center gap-4">
+                            <FormField
+                                control={form.control}
                                 name="email"
-                                type="email"
-                                placeholder="Enter your email"
-                                required
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
+                            <FormField
+                                control={form.control}
                                 name="password"
-                                type="password"
-                                placeholder="Enter your password"
-                                required
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
                             />
                         </div>
-                    </div>
-                    {error ? (
-                        <Alert variant="destructive" className="mt-4">
-                            <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                    ) : null}
-                </form>
+                        {error ? (
+                            <Alert variant="destructive" className="mt-4">
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        ) : null}
+                    </form>
+                </Form>
             </CardContent>
             <CardFooter>
-                <Button
-                    className="w-full"
-                    type="submit"
-                    form="login-form"
-                    disabled={isLoading}
-                    onClick={handleSubmit}
-                >
+                <Button className="w-full" type="submit" form="login-form" disabled={isLoading}>
                     {isLoading ? "Logging in..." : "Log in"}
                 </Button>
             </CardFooter>
         </Card>
     );
-}
+};

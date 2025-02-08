@@ -1,7 +1,6 @@
 import { isBrowser } from "@banjoanton/utils";
 import pino, { TransportTargetOptions } from "pino";
 import { Env } from "./env";
-import { isProduction } from "@/utils/runtime";
 // * Pino import needs to be default to work in the browser
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -15,6 +14,7 @@ export const createLogger = (name: string) => {
 
     const env = Env.server();
     const targets: TransportTargetOptions[] = [];
+    const isProduction = env.NODE_ENV === "production";
 
     if (isProduction) {
         targets.push({

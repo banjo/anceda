@@ -2,13 +2,13 @@ import { prisma } from "@/db";
 import { app } from "@/server/app";
 import { Env } from "@/utils/env";
 import { createLogger } from "@/utils/logger";
-import { isProduction } from "@/utils/runtime";
 import { serve } from "@hono/node-server";
 import closeWithGrace from "close-with-grace";
 
 const env = Env.server();
 export const port = env.PORT;
 const logger = createLogger("index");
+const isProduction = env.NODE_ENV === "production";
 
 const main = async () => {
     logger.info(
