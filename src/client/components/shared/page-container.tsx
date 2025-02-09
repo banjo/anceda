@@ -1,12 +1,12 @@
 import { ScrollArea } from "@/client/components/ui/scroll-area";
-import React from "react";
+import { ReactNode } from "react";
 
 type PageContainerProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     scrollable?: boolean;
 };
 
-export default function PageContainer({ children, scrollable = true }: PageContainerProps) {
+export const PageContainer = ({ children, scrollable = true }: PageContainerProps) => {
     const container = () => <div className="flex flex-1 p-4 md:px-6">{children}</div>;
 
     return scrollable ? (
@@ -14,4 +14,4 @@ export default function PageContainer({ children, scrollable = true }: PageConta
     ) : (
         container()
     );
-}
+};

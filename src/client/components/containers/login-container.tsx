@@ -54,7 +54,7 @@ export const LoginContainer = () => {
             return;
         }
 
-        await navigate({ to: "/dashboard" });
+        await navigate({ to: "/dashboard/overview" });
         setIsLoading(false);
     };
 

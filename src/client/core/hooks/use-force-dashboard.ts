@@ -8,7 +8,7 @@ export const useForceDashboardIfAuth = () => {
 
     useEffect(() => {
         if (!auth.isPending && auth.isAuthenticated) {
-            navigate({ to: "/dashboard" });
+            navigate({ to: "/dashboard/overview" });
         }
     }, [auth, navigate]);
 };

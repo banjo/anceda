@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthDashboardImport } from './routes/_auth.dashboard'
+import { Route as AuthDashboardOverviewImport } from './routes/_auth.dashboard.overview'
 
 // Create/Update Routes
 
@@ -32,6 +33,12 @@ const AuthDashboardRoute = AuthDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthDashboardOverviewRoute = AuthDashboardOverviewImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AuthDashboardRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -59,17 +66,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/dashboard/overview': {
+      id: '/_auth/dashboard/overview'
+      path: '/overview'
+      fullPath: '/dashboard/overview'
+      preLoaderRoute: typeof AuthDashboardOverviewImport
+      parentRoute: typeof AuthDashboardImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthDashboardRouteChildren {
+  AuthDashboardOverviewRoute: typeof AuthDashboardOverviewRoute
+}
+
+const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
+  AuthDashboardOverviewRoute: AuthDashboardOverviewRoute,
+}
+
+const AuthDashboardRouteWithChildren = AuthDashboardRoute._addFileChildren(
+  AuthDashboardRouteChildren,
+)
+
 interface AuthRouteChildren {
-  AuthDashboardRoute: typeof AuthDashboardRoute
+  AuthDashboardRoute: typeof AuthDashboardRouteWithChildren
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthDashboardRoute: AuthDashboardRoute,
+  AuthDashboardRoute: AuthDashboardRouteWithChildren,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -77,28 +103,36 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
-  '/dashboard': typeof AuthDashboardRoute
+  '/dashboard': typeof AuthDashboardRouteWithChildren
+  '/dashboard/overview': typeof AuthDashboardOverviewRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
-  '/dashboard': typeof AuthDashboardRoute
+  '/dashboard': typeof AuthDashboardRouteWithChildren
+  '/dashboard/overview': typeof AuthDashboardOverviewRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
-  '/_auth/dashboard': typeof AuthDashboardRoute
+  '/_auth/dashboard': typeof AuthDashboardRouteWithChildren
+  '/_auth/dashboard/overview': typeof AuthDashboardOverviewRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/dashboard'
+  fullPaths: '/' | '' | '/dashboard' | '/dashboard/overview'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/dashboard'
-  id: '__root__' | '/' | '/_auth' | '/_auth/dashboard'
+  to: '/' | '' | '/dashboard' | '/dashboard/overview'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/_auth/dashboard'
+    | '/_auth/dashboard/overview'
   fileRoutesById: FileRoutesById
 }
 
@@ -137,7 +171,14 @@ export const routeTree = rootRoute
     },
     "/_auth/dashboard": {
       "filePath": "_auth.dashboard.tsx",
-      "parent": "/_auth"
+      "parent": "/_auth",
+      "children": [
+        "/_auth/dashboard/overview"
+      ]
+    },
+    "/_auth/dashboard/overview": {
+      "filePath": "_auth.dashboard.overview.tsx",
+      "parent": "/_auth/dashboard"
     }
   }
 }
