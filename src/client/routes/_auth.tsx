@@ -1,5 +1,5 @@
+import { Header } from "@/client/components/shared/header";
 import { AppSidebar } from "@/client/components/shared/sidebar/sidebar";
-import { SidebarSibling } from "@/client/components/shared/sidebar/sidebar-sibling";
 import { useIsAuthRoute } from "@/client/core/hooks/use-is-auth-route";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
@@ -13,9 +13,9 @@ function AuthLayout() {
     return (
         <>
             <AppSidebar />
-            <SidebarSibling>
+            <Header>
                 <Outlet />
-            </SidebarSibling>
+            </Header>
         </>
     );
 }

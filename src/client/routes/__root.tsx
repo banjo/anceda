@@ -1,6 +1,6 @@
+import { AuthData } from "@/client/core/providers/auth-provider";
 import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { AuthData } from "../core/providers/auth-provider";
 
 type RouterContext = {
     auth: AuthData;

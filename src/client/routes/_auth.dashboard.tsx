@@ -10,10 +10,9 @@ export const Route = createFileRoute("/_auth/dashboard")({
 
 function Dashboard() {
     const auth = useAuth();
-    const { signOut } = useAuth();
 
     const onLogout = async () => {
-        await signOut();
+        await auth.signOut();
     };
 
     const onPermission = async () => {
