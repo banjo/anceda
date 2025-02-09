@@ -15,6 +15,7 @@ import {
     useSidebar,
 } from "@/client/components/ui/sidebar";
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
+import { useAuth } from "@/client/core/providers/auth-provider";
 
 export function NavUser({
     user,
@@ -26,6 +27,7 @@ export function NavUser({
     };
 }) {
     const { isMobile } = useSidebar();
+    const auth = useAuth();
 
     return (
         <SidebarMenu>
@@ -38,7 +40,9 @@ export function NavUser({
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
                                 <AvatarImage src={user.avatar} alt={user.name} />
-                                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                <AvatarFallback className="rounded-lg">
+                                    {user.name[0].toUpperCase()}
+                                </AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
                                 <span className="truncate font-semibold">{user.name}</span>
@@ -57,7 +61,9 @@ export function NavUser({
                             <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <Avatar className="h-8 w-8 rounded-lg">
                                     <AvatarImage src={user.avatar} alt={user.name} />
-                                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                                    <AvatarFallback className="rounded-lg">
+                                        {user.name[0].toUpperCase()}
+                                    </AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
                                     <span className="truncate font-semibold">{user.name}</span>
@@ -88,7 +94,10 @@ export function NavUser({
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => auth.signOut()}
+                            className="gap-2 p-2 text-red-500"
+                        >
                             <LogOut />
                             Log out
                         </DropdownMenuItem>
