@@ -15,6 +15,7 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthDashboardImport } from './routes/_auth.dashboard'
 import { Route as AuthDashboardOverviewImport } from './routes/_auth.dashboard.overview'
+import { Route as AuthDashboardCollectionsImport } from './routes/_auth.dashboard.collections'
 
 // Create/Update Routes
 
@@ -38,6 +39,12 @@ const AuthDashboardRoute = AuthDashboardImport.update({
 const AuthDashboardOverviewRoute = AuthDashboardOverviewImport.update({
   id: '/overview',
   path: '/overview',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+
+const AuthDashboardCollectionsRoute = AuthDashboardCollectionsImport.update({
+  id: '/collections',
+  path: '/collections',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
 
@@ -66,6 +73,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardImport
       parentRoute: typeof AuthImport
     }
+    '/_auth/dashboard/collections': {
+      id: '/_auth/dashboard/collections'
+      path: '/collections'
+      fullPath: '/dashboard/collections'
+      preLoaderRoute: typeof AuthDashboardCollectionsImport
+      parentRoute: typeof AuthDashboardImport
+    }
     '/_auth/dashboard/overview': {
       id: '/_auth/dashboard/overview'
       path: '/overview'
@@ -79,10 +93,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthDashboardRouteChildren {
+  AuthDashboardCollectionsRoute: typeof AuthDashboardCollectionsRoute
   AuthDashboardOverviewRoute: typeof AuthDashboardOverviewRoute
 }
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
+  AuthDashboardCollectionsRoute: AuthDashboardCollectionsRoute,
   AuthDashboardOverviewRoute: AuthDashboardOverviewRoute,
 }
 
@@ -104,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
   '/dashboard': typeof AuthDashboardRouteWithChildren
+  '/dashboard/collections': typeof AuthDashboardCollectionsRoute
   '/dashboard/overview': typeof AuthDashboardOverviewRoute
 }
 
@@ -111,6 +128,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
   '/dashboard': typeof AuthDashboardRouteWithChildren
+  '/dashboard/collections': typeof AuthDashboardCollectionsRoute
   '/dashboard/overview': typeof AuthDashboardOverviewRoute
 }
 
@@ -119,19 +137,26 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/dashboard': typeof AuthDashboardRouteWithChildren
+  '/_auth/dashboard/collections': typeof AuthDashboardCollectionsRoute
   '/_auth/dashboard/overview': typeof AuthDashboardOverviewRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/dashboard' | '/dashboard/overview'
+  fullPaths:
+    | '/'
+    | ''
+    | '/dashboard'
+    | '/dashboard/collections'
+    | '/dashboard/overview'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/dashboard' | '/dashboard/overview'
+  to: '/' | '' | '/dashboard' | '/dashboard/collections' | '/dashboard/overview'
   id:
     | '__root__'
     | '/'
     | '/_auth'
     | '/_auth/dashboard'
+    | '/_auth/dashboard/collections'
     | '/_auth/dashboard/overview'
   fileRoutesById: FileRoutesById
 }
@@ -173,8 +198,13 @@ export const routeTree = rootRoute
       "filePath": "_auth.dashboard.tsx",
       "parent": "/_auth",
       "children": [
+        "/_auth/dashboard/collections",
         "/_auth/dashboard/overview"
       ]
+    },
+    "/_auth/dashboard/collections": {
+      "filePath": "_auth.dashboard.collections.tsx",
+      "parent": "/_auth/dashboard"
     },
     "/_auth/dashboard/overview": {
       "filePath": "_auth.dashboard.overview.tsx",
