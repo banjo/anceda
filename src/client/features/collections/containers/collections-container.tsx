@@ -11,20 +11,56 @@ export const CollectionsContainer = () => {
         },
         {
             id: "456",
-            name: "Alliansloppet 2024 ",
+            name: "AO-Loppet 2024",
             numberOfImages: 100,
+            date: new Date("2024-08-03"),
+        },
+        {
+            id: "789",
+            name: "Alliansloppet 2022",
+            numberOfImages: 85,
+            date: new Date("2022-08-19"),
+        },
+        {
+            id: "123",
+            name: "AO-Loppet 2023",
+            numberOfImages: 70,
+            date: new Date("2023-08-20"),
+        },
+        {
+            id: "456",
+            name: "Alliansloppet 2024",
+            numberOfImages: 50,
             date: new Date("2024-08-20"),
         },
         {
             id: "789",
-            name: "Alliansloppet 2022 ",
+            name: "GKN-Stafetten 2022",
             numberOfImages: 85,
-            date: new Date("2022-08-19"),
+            date: new Date("2022-07-05"),
+        },
+        {
+            id: "123",
+            name: "Alliansloppet 2023",
+            numberOfImages: 70,
+            date: new Date("2023-08-13"),
+        },
+        {
+            id: "456",
+            name: "GKN-Stafetten 2024",
+            numberOfImages: 55,
+            date: new Date("2024-06-20"),
+        },
+        {
+            id: "789",
+            name: "Beachhandboll 2024",
+            numberOfImages: 60,
+            date: new Date("2024-08-19"),
         },
     ];
 
     const collectionsByDate = collections.sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
     return (
