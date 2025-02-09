@@ -29,7 +29,8 @@
         "typecheck": "tsc --noEmit",
         "lint": "eslint .",
         "format": "prettier --write .",
-        "hoks:init": "nlx hoks --init"
+        "hoks:init": "nlx hoks --init",
+        "content:generate": "tsx ./scripts/generate-content.ts"
     },
     "dependencies": {
         "@banjoanton/prettier-config": "^0.1.11",
@@ -60,6 +61,7 @@
         "fs-extra": "^11.3.0",
         "globby": "^14.0.2",
         "hono": "^4.6.20",
+        "i18next": "^24.2.2",
         "lucide-react": "^0.452.0",
         "pino": "^9.6.0",
         "pino-pretty": "^11.3.0",
@@ -67,6 +69,7 @@
         "react-dom": "^18.3.1",
         "react-hook-form": "^7.54.2",
         "react-hot-toast": "^2.5.1",
+        "react-i18next": "^15.4.0",
         "tailwind-merge": "^2.6.0",
         "tailwindcss-animate": "^1.0.7",
         "zod": "^3.24.1",

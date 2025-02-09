@@ -24,8 +24,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export const LoginContainer = () => {
+    const { t } = useTranslation();
+
     const form = useForm<AuthLogin>({
         resolver: zodResolver(AuthLoginSchema),
         defaultValues: {
@@ -61,8 +64,8 @@ export const LoginContainer = () => {
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>Enter your email and password to log in</CardDescription>
+                <CardTitle>{t("index.login.login")}</CardTitle>
+                <CardDescription>{t("index.login.description")}</CardDescription>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
@@ -73,7 +76,7 @@ export const LoginContainer = () => {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>{t("index.login.email")}</FormLabel>
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
@@ -86,7 +89,7 @@ export const LoginContainer = () => {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>{t("index.login.password")}</FormLabel>
                                         <FormControl>
                                             <Input type="password" {...field} />
                                         </FormControl>
@@ -105,7 +108,7 @@ export const LoginContainer = () => {
             </CardContent>
             <CardFooter>
                 <Button className="w-full" type="submit" form="login-form" disabled={isLoading}>
-                    {isLoading ? "Logging in..." : "Log in"}
+                    {isLoading ? t("index.login.loggingIn") : t("index.login.logIn")}
                 </Button>
             </CardFooter>
         </Card>

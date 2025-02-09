@@ -67,6 +67,41 @@ git checkout feature/<feature-name>
 git rebase main
 ```
 
-## TODO
+# Content
 
-- [ ] Add roles or organization
+We'll implement multi lingual support by using `i18next` and `react-i18next`, in combination with a custom `script`. Look at `login-container.ts` to see how it is used.
+
+## Creating new content
+
+1. Create the react component
+2. Open the `translations.ts` file in the `src/client` folder. Add a new key-value pair for the URL of the component. For example, if the code is located in `dashboard/overview`, the content should look like this:
+
+```ts
+export const translations: LangTree = {
+    //...
+    dashboard: {
+        overview: {
+            welcome: {
+                en: "Welcome to the overview page",
+                se: "Välkommen till översiktssidan",
+            },
+            // ...
+        },
+    },
+};
+```
+
+3. When the content has been added, run the script to generate content: `pnpm run content:generate`
+4. Add the content with the `useTranslation` hook in the component:
+
+```tsx
+import { useTranslation } from "react-i18next";
+
+export const Overview: React.FC = () => {
+    const { t } = useTranslation();
+
+    return <h1>{t("dashboard.overview.welcome")}</h1>;
+};
+```
+
+5. Profit!!

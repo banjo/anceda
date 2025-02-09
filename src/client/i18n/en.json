@@ -1,0 +1,15 @@
+{
+    "translation": {
+        "index": {
+            "login": {
+                "title": "Login",
+                "email": "Email",
+                "password": "Password",
+                "login": "Login",
+                "logIn": "Log in",
+                "loggingIn": "Logging in",
+                "description": "Enter your email and password to log in"
+            }
+        }
+    }
+}

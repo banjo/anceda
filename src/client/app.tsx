@@ -2,6 +2,7 @@ import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import "./style.css";
+import "./i18n/config.ts";
 import { SidebarProvider } from "@/client/components/ui/sidebar";
 import { AuthProvider, useAuth } from "@/client/core/providers/auth-provider";
 import {

@@ -1,0 +1,15 @@
+{
+    "translation": {
+        "index": {
+            "login": {
+                "title": "Logga in",
+                "email": "E-post",
+                "password": "Lösenord",
+                "login": "Inloggning",
+                "logIn": "Logga in",
+                "loggingIn": "Loggar in",
+                "description": "Ange din e-postadress och lösenord för att logga in"
+            }
+        }
+    }
+}
