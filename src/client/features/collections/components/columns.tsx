@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Ghost, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/client/components/ui/button";
 import {
@@ -33,7 +33,15 @@ export const columns: ColumnDef<Collection>[] = [
     },
     {
         accessorKey: "date",
-        header: "Date",
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Date
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
         cell: ({ getValue }) => {
             const date = getValue() as Date;
             return date.toLocaleDateString("en-GB");
