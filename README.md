@@ -105,3 +105,9 @@ export const Overview: React.FC = () => {
 ```
 
 5. Profit!!
+
+# Inspiration
+
+Links for inspiration and ideas
+
+- shadcn dashboard: <https://github.com/Kiranism/next-shadcn-dashboard-starter>
