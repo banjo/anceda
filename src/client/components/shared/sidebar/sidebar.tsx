@@ -1,16 +1,9 @@
-import * as React from "react";
 import {
-    AudioWaveform,
-    BookOpen,
-    Bot,
-    Command,
-    Frame,
-    GalleryVerticalEnd,
-    Map,
-    PieChart,
-    Settings2,
-    SquareTerminal,
-} from "lucide-react";
+    SidebarEntry,
+    SidebarGroupContainer,
+} from "@/client/components/shared/sidebar/sidebar-group-container";
+import { TeamSwitcher } from "@/client/components/shared/sidebar/sidebar-switcher";
+import { NavUser } from "@/client/components/shared/sidebar/sidebar-user";
 import {
     Sidebar,
     SidebarContent,
@@ -18,10 +11,7 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/client/components/ui/sidebar";
-import { TeamSwitcher } from "@/client/components/shared/sidebar/sidebar-switcher";
-import { NavMain } from "@/client/components/shared/sidebar/sidebar-main";
-import { NavProjects } from "@/client/components/shared/sidebar/sidebar-projects";
-import { NavUser } from "@/client/components/shared/sidebar/sidebar-user";
+import { AudioWaveform, Command, GalleryVerticalEnd, Map, SquareTerminal } from "lucide-react";
 
 // This is sample data.
 const data = {
@@ -47,121 +37,40 @@ const data = {
             plan: "Free",
         },
     ],
-    navMain: [
-        {
-            title: "Playground",
-            url: "#",
-            icon: SquareTerminal,
-            isActive: true,
-            items: [
-                {
-                    title: "History",
-                    url: "#",
-                },
-                {
-                    title: "Starred",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Models",
-            url: "#",
-            icon: Bot,
-            items: [
-                {
-                    title: "Genesis",
-                    url: "#",
-                },
-                {
-                    title: "Explorer",
-                    url: "#",
-                },
-                {
-                    title: "Quantum",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Documentation",
-            url: "#",
-            icon: BookOpen,
-            items: [
-                {
-                    title: "Introduction",
-                    url: "#",
-                },
-                {
-                    title: "Get Started",
-                    url: "#",
-                },
-                {
-                    title: "Tutorials",
-                    url: "#",
-                },
-                {
-                    title: "Changelog",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
-                },
-            ],
-        },
-    ],
-    projects: [
-        {
-            name: "Design Engineering",
-            url: "#",
-            icon: Frame,
-        },
-        {
-            name: "Sales & Marketing",
-            url: "#",
-            icon: PieChart,
-        },
-        {
-            name: "Travel",
-            url: "#",
-            icon: Map,
-        },
-    ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = ({ ...props }) => {
+    const contentEntries: SidebarEntry[] = [
+        {
+            name: "Overview",
+            url: "/dashboard/overview",
+            icon: SquareTerminal,
+            isCollapsible: false,
+        },
+        {
+            name: "Collections",
+            url: "/dashboard/collections",
+            icon: GalleryVerticalEnd,
+            isCollapsible: false,
+        },
+        {
+            name: "Organization",
+            url: "/dashboard/organization",
+            icon: Command,
+            isCollapsible: false,
+            items: [
+                { title: "Members", url: "/dashboard/organization/members", icon: Map },
+                { title: "Teams", url: "/dashboard/organization/teams" },
+            ],
+        },
+    ];
     return (
         <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
                 <TeamSwitcher teams={data.teams} />
             </SidebarHeader>
             <SidebarContent>
-                <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
+                <SidebarGroupContainer entries={contentEntries} name="Dashboard" />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />
@@ -169,4 +78,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarRail />
         </Sidebar>
     );
-}
+};
