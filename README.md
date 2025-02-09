@@ -15,7 +15,7 @@ pnpm db:generate
 pnpm db:start
 
 # Migrate database
-pnpm db:migrate:dev
+pnpm db:reset
 
 # Start development server
 pnpm dev
