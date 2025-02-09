@@ -8,9 +8,6 @@
 # Install dependencies
 pnpm install
 
-# allow scripts to run
-chmod +x ./scripts/*
-
 # Generate prisma client
 pnpm db:generate
 
