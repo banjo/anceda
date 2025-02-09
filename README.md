@@ -14,6 +14,9 @@ pnpm db:generate
 # Start local database
 pnpm db:start
 
+# Migrate database
+pnpm db:migrate:dev
+
 # Start development server
 pnpm dev
 ```
