@@ -1,5 +1,5 @@
 import { PageContainer } from "@/client/components/shared/page-container";
-import { useForceDashboardIfAuth } from "@/client/core/hooks/use-force-dashboard";
+import { useForceOverview } from "@/client/core/hooks/use-force-overview";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/dashboard")({
@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_auth/dashboard")({
 });
 
 function Dashboard() {
-    useForceDashboardIfAuth();
+    useForceOverview();
     return (
         <PageContainer>
             <Outlet />

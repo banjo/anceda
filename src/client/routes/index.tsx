@@ -1,5 +1,5 @@
 import { LoginContainer } from "@/client/components/containers/login-container";
-import { useForceDashboardIfAuth } from "@/client/core/hooks/use-force-dashboard";
+import { useForceOverview } from "@/client/core/hooks/use-force-overview";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-    useForceDashboardIfAuth();
+    useForceOverview();
 
     return (
         <div className="flex justify-center items-center h-screen w-screen">
