@@ -1,5 +1,5 @@
-import { Breadcrumbs } from "@/client/components/shared/breadcrumbs";
-import { UserNav } from "@/client/components/shared/user-nav";
+import { Breadcrumbs } from "@/client/components/shared/header/breadcrumbs";
+import { UserNav } from "@/client/components/shared/header/user-nav";
 import { Separator } from "@/client/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/client/components/ui/sidebar";
 import { PropsWithChildren } from "react";

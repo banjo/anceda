@@ -1,4 +1,4 @@
-import { Header } from "@/client/components/shared/header";
+import { Header } from "@/client/components/shared/header/header";
 import { AppSidebar } from "@/client/components/shared/sidebar/sidebar";
 import { useIsAuthRoute } from "@/client/core/hooks/use-is-auth-route";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
