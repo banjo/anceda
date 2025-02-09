@@ -4,6 +4,7 @@ export type Collection = {
     id: string;
     name: string;
     numberOfImages: number;
+    date: Date;
 };
 
 export const columns: ColumnDef<Collection>[] = [
@@ -17,6 +18,14 @@ export const columns: ColumnDef<Collection>[] = [
     },
     {
         accessorKey: "numberOfImages",
-        header: "Number of Images",
+        header: "Images",
+    },
+    {
+        accessorKey: "date",
+        header: "Date",
+        cell: ({ getValue }) => {
+            const date = getValue() as Date;
+            return date.toLocaleDateString("en-GB");
+        },
     },
 ];
