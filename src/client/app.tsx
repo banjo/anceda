@@ -27,14 +27,14 @@ declare module "@tanstack/react-router" {
 let isFirstLoad = true;
 
 const InnerApp = () => {
-    const session = useAuth();
+    const auth = useAuth();
 
-    if (session.isPending && isFirstLoad) {
+    if (auth.isPending && isFirstLoad) {
         return <FullScreenLoading isLoading text="Loading..." />;
     }
 
     isFirstLoad = false;
-    return <RouterProvider router={router} context={{ auth: session }} />;
+    return <RouterProvider router={router} context={{ auth }} />;
 };
 
 const App = () => (

@@ -43,7 +43,9 @@ const defaultAuthData: AuthData = {
 };
 
 const AuthContext = createContext<AuthData>(defaultAuthData);
+
 export const useAuth = () => useContext(AuthContext);
+
 export const AuthProvider = ({ children }: PropsWithChildren) => {
     const auth = authClient.useSession();
     const hasSession = isDefined(auth?.data?.session?.token);

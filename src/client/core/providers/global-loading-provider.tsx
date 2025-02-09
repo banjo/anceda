@@ -1,11 +1,6 @@
 import { Maybe, noop } from "@banjoanton/utils";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 
-type Props = {
-    isLoading: boolean;
-    text: Maybe<string>;
-};
-
 export const Spinner = ({ radius = "3rem" }: { radius?: string }) => (
     <div
         className="inline-block animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
@@ -14,6 +9,10 @@ export const Spinner = ({ radius = "3rem" }: { radius?: string }) => (
     />
 );
 
+type Props = {
+    isLoading: boolean;
+    text: Maybe<string>;
+};
 export const FullScreenLoading = ({ isLoading, text }: Props) => {
     if (!isLoading) {
         return null;
@@ -33,7 +32,9 @@ export type LoadingType = {
 };
 
 const LoadingContext = createContext<LoadingType>({ isLoading: false, setLoading: noop });
+
 export const useLoading = () => useContext(LoadingContext);
+
 export const GlobalLoadingProvider = ({ children }: PropsWithChildren) => {
     const [isLoadingGlobal, setIsLoadingGlobal] = useState(false);
     const [textGlobal, setTextGlobal] = useState<Maybe<string>>();
