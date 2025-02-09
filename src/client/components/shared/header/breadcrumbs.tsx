@@ -1,3 +1,4 @@
+import { useBreadcrumbs } from "@/client/components/hooks/use-breadcrumbs";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -6,17 +7,31 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/client/components/ui/breadcrumb";
+import { Fragment } from "react/jsx-runtime";
 
-export const Breadcrumbs = () => (
-    <Breadcrumb>
-        <BreadcrumbList>
-            <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">Building Your Application</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator className="hidden md:block" />
-            <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-            </BreadcrumbItem>
-        </BreadcrumbList>
-    </Breadcrumb>
-);
+export const Breadcrumbs = () => {
+    const items = useBreadcrumbs();
+    if (items.length === 0) return null;
+
+    return (
+        <Breadcrumb>
+            <BreadcrumbList>
+                {items.map((item, index) => (
+                    <Fragment key={item.title}>
+                        {index !== items.length - 1 && (
+                            <BreadcrumbItem className="hidden md:block">
+                                <BreadcrumbLink href={item.link}>{item.title}</BreadcrumbLink>
+                            </BreadcrumbItem>
+                        )}
+                        {index < items.length - 1 && (
+                            <BreadcrumbSeparator className="hidden md:block" />
+                        )}
+                        {index === items.length - 1 && (
+                            <BreadcrumbPage>{item.title}</BreadcrumbPage>
+                        )}
+                    </Fragment>
+                ))}
+            </BreadcrumbList>
+        </Breadcrumb>
+    );
+};
