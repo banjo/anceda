@@ -1,5 +1,5 @@
-import { Collection, columns } from "@/client/components/shared/collections/columns";
-import { DataTable } from "@/client/components/shared/collections/data-table";
+import { Collection, columns } from "@/client/features/collections/components/columns";
+import { DataTable } from "@/client/features/collections/components/data-table";
 
 export const CollectionsContainer = () => {
     const collections: Collection[] = [
