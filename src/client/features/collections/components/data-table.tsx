@@ -28,7 +28,6 @@ import {
 } from "@/client/components/ui/select";
 
 import { Button } from "@/client/components/ui/button";
-import { Input } from "@/client/components/ui/input";
 
 import * as React from "react";
 
@@ -67,6 +66,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
     return (
         <div>
+            <h1 className="text-2xl font-bold mb-4">Your Collections</h1>
             <div className="flex items-center py-4">
                 <Select
                     onValueChange={value => table.getColumn("name")?.setFilterValue(value)}
@@ -114,7 +114,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                                 >
                                     {row
                                         .getVisibleCells()
-                                        .filter(cell => cell.column.id !== "event")
+                                        .filter(cell => cell.column.id !== "event" && "images")
                                         .map(cell => (
                                             <TableCell key={cell.id}>
                                                 {flexRender(
