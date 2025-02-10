@@ -16,6 +16,7 @@ export type Collection = {
     name: string;
     numberOfImages: number;
     date: Date;
+    event: string;
 };
 
 export const columns: ColumnDef<Collection>[] = [
@@ -30,6 +31,11 @@ export const columns: ColumnDef<Collection>[] = [
     {
         accessorKey: "numberOfImages",
         header: "Images",
+    },
+    {
+        accessorKey: "event",
+        header: "Event",
+        enableHiding: true,
     },
     {
         accessorKey: "date",
