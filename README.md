@@ -8,6 +8,9 @@
 # Install dependencies
 pnpm install
 
+# Init hooks
+pnpm hoks:init
+
 # Generate prisma client
 pnpm db:generate
 
@@ -97,7 +100,7 @@ export const translations: LangTree = {
 ```tsx
 import { useTranslation } from "react-i18next";
 
-export const Overview: React.FC = () => {
+export const Overview = () => {
     const { t } = useTranslation();
 
     return <h1>{t("dashboard.overview.welcome")}</h1>;
