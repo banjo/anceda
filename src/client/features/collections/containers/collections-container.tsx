@@ -108,9 +108,5 @@ export const CollectionsContainer = () => {
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
-    return (
-        <div className="container mx-auto py-10">
-            <DataTable columns={columns} data={collectionsByDate} />
-        </div>
-    );
+    return <DataTable columns={columns} data={collectionsByDate} />;
 };

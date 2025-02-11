@@ -65,8 +65,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     );
 
     return (
-        <div>
-            <h1 className="text-2xl font-bold mb-4">Your Collections</h1>
+        <div className="w-full">
             <div className="flex items-center py-4">
                 <Select
                     onValueChange={value => table.getColumn("name")?.setFilterValue(value)}
