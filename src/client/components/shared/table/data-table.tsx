@@ -19,24 +19,32 @@ import {
     TableRow,
 } from "@/client/components/ui/table";
 
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/client/components/ui/select";
-
 import { Button } from "@/client/components/ui/button";
 
 import * as React from "react";
+import { SelectByCategory } from "@/client/components/shared/table/select-by-category";
 
-interface DataTableProps<TData, TValue> {
+export type Filter<TData> = {
+    selectFilter: (data: TData) => string;
+    columnId: keyof TData;
+    placeholder?: string;
+};
+
+export type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-}
+    hideHeaderText?: string[];
+    hideColumns?: string[];
+    filters?: Filter<TData>[];
+};
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+    columns,
+    data,
+    hideHeaderText,
+    hideColumns,
+    filters,
+}: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
@@ -60,29 +68,23 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         },
     });
 
-    const eventCategories = Array.from(
-        new Set((data as { event: string }[]).map(collection => collection.event))
-    );
-
     return (
         <div className="w-full">
-            <div className="flex items-center py-4">
-                <Select
-                    onValueChange={value => table.getColumn("name")?.setFilterValue(value)}
-                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-                >
-                    <SelectTrigger className="max-w-sm">
-                        <SelectValue placeholder="Select event..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value=" ">All</SelectItem>
-                        {eventCategories.map(event => (
-                            <SelectItem key={event} value={event}>
-                                {event}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+            <div className="flex items-center py-4 gap-2">
+                {filters?.map(filter => {
+                    const categories = Array.from(new Set(data.map(filter.selectFilter)));
+                    return (
+                        <div className="max-w-44">
+                            <SelectByCategory
+                                key={filter.columnId.toString()}
+                                table={table}
+                                categories={categories}
+                                columnId={filter.columnId.toString()}
+                                placeholder={filter.placeholder}
+                            />
+                        </div>
+                    );
+                })}
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -90,7 +92,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                         {table.getHeaderGroups().map(headerGroup => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers
-                                    .filter(header => header.column.id !== "event")
+                                    .filter(header => !hideHeaderText?.includes(header.column.id))
                                     .map(header => (
                                         <TableHead key={header.id}>
                                             {header.isPlaceholder
@@ -113,7 +115,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                                 >
                                     {row
                                         .getVisibleCells()
-                                        .filter(cell => cell.column.id !== "event" && "images")
+                                        .filter(cell => !hideColumns?.includes(cell.column.id))
                                         .map(cell => (
                                             <TableCell key={cell.id}>
                                                 {flexRender(
