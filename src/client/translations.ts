@@ -8,11 +8,16 @@ type Leaf = {
     [key in Language]: string;
 };
 
-export type LangTree = {
-    [key: string]: Leaf | LangTree;
+export type ContentTree = {
+    [key: string]: Leaf | ContentTree;
 };
 
-export const languageContent: LangTree = {
+export type ContentDefinition = {
+    key: string;
+    tree: ContentTree;
+};
+
+export const languageContent: ContentTree = {
     index: {
         login: {
             title: {

@@ -1,4 +1,4 @@
-import { LangTree, Language, languageContent, Languages } from "@/client/translations";
+import { ContentTree, Language, languageContent, Languages } from "@/client/translations";
 import path from "path";
 import fs from "fs";
 
@@ -13,7 +13,7 @@ const format = (json: JsonObj): JsonObj => ({
     translation: json,
 });
 
-const extractLanguage = (langTree: LangTree, lang: Language): JsonObj => {
+const extractLanguage = (langTree: ContentTree, lang: Language): JsonObj => {
     const result: JsonObj = {};
 
     for (const key in langTree) {
