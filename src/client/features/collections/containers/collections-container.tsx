@@ -1,5 +1,5 @@
+import { DataTable } from "@/client/components/shared/table/data-table";
 import { Collection, columns } from "@/client/features/collections/components/columns";
-import { DataTable } from "@/client/features/collections/components/data-table";
 
 export const CollectionsContainer = () => {
     const collections: Collection[] = [
@@ -10,7 +10,7 @@ export const CollectionsContainer = () => {
             event: "Alliansloppet",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -21,7 +21,7 @@ export const CollectionsContainer = () => {
             event: "AO-Loppet",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -32,7 +32,7 @@ export const CollectionsContainer = () => {
             event: "Alliansloppet",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -43,7 +43,7 @@ export const CollectionsContainer = () => {
             event: "AO-Loppet",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -54,7 +54,7 @@ export const CollectionsContainer = () => {
             event: "Alliansloppet",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -65,7 +65,7 @@ export const CollectionsContainer = () => {
             event: "GKN-Stafetten",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -76,7 +76,7 @@ export const CollectionsContainer = () => {
             event: "Alliansloppet",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -87,7 +87,7 @@ export const CollectionsContainer = () => {
             event: "GKN-Stafetten",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -98,7 +98,7 @@ export const CollectionsContainer = () => {
             event: "Beachhandboll",
             images: Array.from({ length: 60 }, (_, i) => ({
                 id: `city-${i + 1}`,
-                url: `/placeholder.svg?height=80&width=80&text=City${i + 1}`,
+                url: `https://picsum.photos/400?random=${i + 1}`,
                 title: `City Image ${i + 1}`,
             })),
         },
@@ -108,5 +108,19 @@ export const CollectionsContainer = () => {
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
-    return <DataTable columns={columns} data={collectionsByDate} />;
+    return (
+        <DataTable
+            columns={columns}
+            data={collectionsByDate}
+            hideColumns={["event"]}
+            hideHeaderText={["event"]}
+            filters={[
+                {
+                    columnId: "event",
+                    selectFilter: c => c.event,
+                    placeholder: "Select event",
+                },
+            ]}
+        />
+    );
 };
