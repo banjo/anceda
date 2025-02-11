@@ -1,8 +1,10 @@
 import { Plugin } from "vite";
 
 import fs from "fs/promises";
+import fsSync from "fs";
 import path from "path";
 import ts from "typescript";
+import { ContentDefinition } from "@/client/translations";
 
 type ContentGeneratorSettings = {
     variableName: string;
@@ -36,10 +38,27 @@ export const contentGenerator = (opts?: ContentGeneratorSettings): Plugin => {
                     return;
                 }
 
-                const def = findContentDefinition(sourceFile, settings);
+                let def = findContentDefinition(sourceFile, settings);
 
                 if (!def) {
-                    console.log("no definition found");
+                    console.log("no definition found, adding...");
+                    const filePath = path.resolve(file);
+                    const key = path.dirname(filePath).split("src/")[1].replace(/\\/g, "/");
+
+                    const definition: ContentDefinition = {
+                        key,
+                        tree: {},
+                    };
+                    const contentNode = createContentDefinitionNode(definition, settings);
+                    def = definition;
+                    await appendVariableToFile(file, contentNode);
+
+                    // TODO: check if the import already exists
+                    const importStatement = createImportDeclaration("@/client/translations", [
+                        "ContentDefinition",
+                    ]);
+
+                    await prependImportToFile(file, importStatement);
                     return;
                 }
 
@@ -50,6 +69,84 @@ export const contentGenerator = (opts?: ContentGeneratorSettings): Plugin => {
         },
     };
 };
+
+async function prependImportToFile(file: string, importStatement: ts.ImportDeclaration) {
+    const sourceText = await fs.readFile(file, "utf8");
+    const sourceFile = ts.createSourceFile(file, sourceText, ts.ScriptTarget.Latest, true);
+
+    const updatedSourceFile = ts.factory.updateSourceFile(sourceFile, [
+        importStatement,
+        ...sourceFile.statements,
+    ]);
+
+    const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+    const newContent = printer.printFile(updatedSourceFile);
+
+    fsSync.writeFileSync(file, newContent);
+}
+
+function createImportDeclaration(moduleName: string, imports: string[]): ts.ImportDeclaration {
+    const importSpecifiers = imports.map(importName =>
+        ts.factory.createImportSpecifier(
+            false, // This is not a type-only import
+            undefined, // Use undefined to not rename (i.e., no "as XYZ" part)
+            ts.factory.createIdentifier(importName) // The name of the import
+        )
+    );
+
+    const importClause = ts.factory.createImportClause(
+        false, // This is not a type-only import
+        undefined, // No default import specified
+        ts.factory.createNamedImports(importSpecifiers) // Use named imports from the above specifiers
+    );
+
+    return ts.factory.createImportDeclaration(
+        undefined, // No decorators
+        importClause, // No modifiers (e.g., `export`)
+        ts.factory.createStringLiteral(moduleName) // The module from which to import
+    );
+}
+
+async function appendVariableToFile(file: string, variable: ts.VariableStatement) {
+    const sourceText = await fs.readFile(file, "utf8");
+    const sourceFile = ts.createSourceFile(file, sourceText, ts.ScriptTarget.Latest, true);
+
+    const updatedSourceFile = ts.factory.updateSourceFile(sourceFile, [variable]);
+
+    const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+    const newContent = printer.printFile(updatedSourceFile);
+
+    fsSync.writeFileSync(file, newContent);
+}
+
+function createContentDefinitionNode(
+    content: ContentDefinition,
+    { variableName, typeName }: ContentGeneratorSettings
+): ts.VariableStatement {
+    const variableDeclaration = ts.factory.createVariableDeclaration(
+        variableName,
+        undefined,
+        ts.factory.createTypeReferenceNode(typeName),
+        ts.factory.createObjectLiteralExpression(
+            [
+                ts.factory.createPropertyAssignment(
+                    "key",
+                    ts.factory.createStringLiteral(content.key)
+                ),
+                ts.factory.createPropertyAssignment(
+                    "tree",
+                    ts.factory.createObjectLiteralExpression([], false)
+                ),
+            ],
+            true
+        )
+    );
+
+    return ts.factory.createVariableStatement(
+        ts.factory.createModifiersFromModifierFlags(ts.ModifierFlags.Export),
+        ts.factory.createVariableDeclarationList([variableDeclaration], ts.NodeFlags.Const)
+    );
+}
 
 function isConstReactComponent(node: ts.Node) {
     return (
