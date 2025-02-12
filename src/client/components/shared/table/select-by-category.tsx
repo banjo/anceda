@@ -21,7 +21,9 @@ export const SelectByCategory = <TData,>({
     placeholder,
 }: SelectByCategoryProps<TData>) => (
     <Select
-        onValueChange={value => table.getColumn(columnId)?.setFilterValue(value)}
+        onValueChange={value =>
+            table.getColumn(columnId)?.setFilterValue(value === " " ? undefined : value)
+        }
         value={(table.getColumn(columnId)?.getFilterValue() as string) ?? ""}
     >
         <SelectTrigger className="max-w-sm">
