@@ -74,7 +74,7 @@ export function DataTable<TData, TValue>({
                 {filters?.map(filter => {
                     const categories = Array.from(new Set(data.map(filter.selectFilter)));
                     return (
-                        <div className="max-w-44">
+                        <div key={filter.columnId.toString()} className="max-w-44">
                             <SelectByCategory
                                 key={filter.columnId.toString()}
                                 table={table}
