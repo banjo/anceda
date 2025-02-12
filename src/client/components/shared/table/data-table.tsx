@@ -86,10 +86,13 @@ export function DataTable<TData, TValue>({
                     );
                 })}
             </div>
-            <div className="rounded-md border">
-                <div className="max-h-[400px] overflow-y-auto">
-                    <Table className="table-fixed">
-                        <TableHeader>
+            <div className="rounded-md border overflow-y-auto">
+                <div className="max-h-[400px]">
+                    <Table className="relative">
+                        <TableHeader
+                            style={{ boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.1)" }}
+                            className="sticky top-0 bg-white z-20"
+                        >
                             {table.getHeaderGroups().map(headerGroup => (
                                 <TableRow key={headerGroup.id}>
                                     {headerGroup.headers

@@ -29,6 +29,7 @@ export const columns: ColumnDef<Collection>[] = [
     {
         accessorKey: "name",
         header: "Name",
+        cell: ({ row }) => <div className="w-[150px] truncate"> {row.getValue("name")} </div>,
     },
     {
         id: "images",
@@ -99,5 +100,7 @@ export const columns: ColumnDef<Collection>[] = [
                 </DropdownMenuContent>
             </DropdownMenu>
         ),
+        size: 40,
+        enableResizing: false,
     },
 ];
