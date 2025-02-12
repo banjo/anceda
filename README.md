@@ -68,6 +68,12 @@ git checkout feature/<feature-name>
 
 # Rebase with main
 git rebase main
+
+# Fix possible conflicts
+...
+
+# Push changes
+git push --force-with-lease
 ```
 
 # Content
