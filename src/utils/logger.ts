@@ -6,12 +6,7 @@ import { Env } from "./env";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let sharedTransport: any;
 
-export const createLogger = (name: string) => {
-    if (isBrowser()) {
-        const clientVariables = Env.client();
-        return pino({ name, level: clientVariables.VITE_LOG_LEVEL || "info" });
-    }
-
+export const setupLogger = () => {
     const env = Env.server();
     const targets: TransportTargetOptions[] = [];
     const isProduction = env.NODE_ENV === "production";
@@ -45,11 +40,20 @@ export const createLogger = (name: string) => {
 
     return pino(
         {
-            name,
             level: env.LOG_LEVEL ?? "info",
-            ...base,
+            base,
             errorKey: "error",
         },
         sharedTransport
     );
+};
+
+export const createLogger = (name: string) => {
+    if (isBrowser()) {
+        const clientVariables = Env.client();
+        return pino({ name, level: clientVariables.VITE_LOG_LEVEL || "info" });
+    }
+
+    const logger = setupLogger();
+    return logger.child({ name });
 };

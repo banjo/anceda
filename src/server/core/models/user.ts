@@ -3,6 +3,7 @@ import { parseRole, Role } from "@/server/core/models/role";
 import { Maybe } from "@banjoanton/utils";
 
 export type User = {
+    id: string;
     name: string;
     email: string;
     isVerified: boolean;
@@ -17,6 +18,7 @@ export type User = {
 export const User = {
     from: (user: User): User => user,
     fromHeaders: (user: ApiUser, session: ApiSession): User => ({
+        id: user.id,
         activeOrganizationId: session.activeOrganizationId ?? undefined,
         createdAt: user.createdAt,
         email: user.email,

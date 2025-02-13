@@ -6,11 +6,14 @@ import { authMiddleware } from "../core/middleware/auth-middleware";
 export type ApiAuthorizedInstance = {
     Variables: {
         user: User;
+        requestId: string;
     };
 };
 
 export type ApiPublicInstance = {
-    Variables: {};
+    Variables: {
+        requestId: string;
+    };
 };
 
 export const createPublicApiInstance = () => new Hono<ApiPublicInstance>();

@@ -1,12 +1,11 @@
-import { prisma } from "../../../db";
-import { createLogger } from "../../../utils/logger";
-import { createAdminApiInstance } from "../api-instance";
+import { prisma } from "@/db";
+import { createAdminApiInstance } from "@/server/api/api-instance";
+import { createContextLogger } from "@/utils/context-logger";
 
-const logger = createLogger("admin-controller");
+const logger = createContextLogger("admin-controller");
 
-// localhost:3000/api/admin/organizations
 export const adminController = createAdminApiInstance().get("/organizations", async c => {
-    logger.debug("Getting organizations");
+    logger.info("Getting organizations");
 
     const orgs = await prisma.organization.findMany();
 

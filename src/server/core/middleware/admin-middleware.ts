@@ -1,11 +1,10 @@
 import { UnauthorizedResponse } from "@/server/api/controller-model";
-import { createLogger } from "@/utils/logger";
+import { createContextLogger } from "@/utils/context-logger";
 import { createMiddleware } from "hono/factory";
 
-const logger = createLogger("admin-middleware");
+const logger = createContextLogger("admin-middleware");
 
 export const adminMiddleware = createMiddleware(async (c, next) => {
-    logger.debug("Handling admin middleware");
     const user = c.get("user");
 
     if (!user) {
