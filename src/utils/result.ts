@@ -1,5 +1,9 @@
-import { createResult, ResultType as RT } from "@banjoanton/utils";
+import {
+    AsyncTryExpressionResult,
+    createTryExpressionResult,
+    TryExpressionResult,
+} from "@banjoanton/utils";
 
-export const Result = createResult();
-export type ResultType<T> = RT<T>;
-export type AsyncResultType<T> = Promise<ResultType<T>>;
+export const Result = createTryExpressionResult();
+export type ResultType<T = undefined> = TryExpressionResult<T>;
+export type AsyncResultType<T = undefined> = AsyncTryExpressionResult<T>;

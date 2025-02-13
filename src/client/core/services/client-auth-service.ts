@@ -6,14 +6,14 @@ export type SignInProps = {
     password: string;
 };
 
-const signIn = async ({ email, password }: SignInProps): AsyncResultType<void> => {
+const signIn = async ({ email, password }: SignInProps): AsyncResultType => {
     const { data, error } = await authClient.signIn.email({
         email,
         password,
     });
 
     if (error) {
-        return Result.error(error.message ?? "Could not sign in");
+        return Result.error(new Error(error.message ?? "Could not sign in"));
     }
 
     // TODO: error check and fetch user data, get active organization, etc.
@@ -22,11 +22,11 @@ const signIn = async ({ email, password }: SignInProps): AsyncResultType<void> =
     return Result.ok();
 };
 
-const signOut = async (): AsyncResultType<void> => {
+const signOut = async (): AsyncResultType => {
     const { data, error } = await authClient.signOut();
 
     if (error) {
-        return Result.error(error.message ?? "Could not sign out");
+        return Result.error(new Error(error.message ?? "Could not sign out"));
     }
 
     console.log({ data });
