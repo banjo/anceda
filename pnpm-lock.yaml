@@ -12,8 +12,8 @@ importers:
         specifier: ^0.1.11
         version: 0.1.11(prettier@3.4.2)
       '@banjoanton/utils':
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^1.0.2
+        version: 1.0.2
       '@hono/node-server':
         specifier: ^1.13.8
         version: 1.13.8(hono@4.7.0)
@@ -328,8 +328,8 @@ packages:
     peerDependencies:
       prettier: ^3.0.0
 
-  '@banjoanton/utils@1.0.1':
-    resolution: {integrity: sha512-APx+a5PaHhEkjL1PM3KwQSpFMdoGzrdoWx1P9J8OMcDPJQuPLC7VrV0GpvEjagX4HyZZyw/bXsepnV1I+5zxDA==}
+  '@banjoanton/utils@1.0.2':
+    resolution: {integrity: sha512-gsgqDmwetYBjffz/HLWHcARfyo5nkm0M68pvqSivd+3wMUnqR7bYspMjEijFUux2QSvZMgYButnzIjMlVAqv3w==}
 
   '@better-auth/utils@0.2.3':
     resolution: {integrity: sha512-Ap1GaSmo6JYhJhxJOpUB0HobkKPTNzfta+bLV89HfpyCAHN7p8ntCrmNFHNAVD0F6v0mywFVEUg1FUhNCc81Rw==}
@@ -4072,7 +4072,7 @@ snapshots:
     dependencies:
       prettier: 3.4.2
 
-  '@banjoanton/utils@1.0.1':
+  '@banjoanton/utils@1.0.2':
     dependencies:
       ohash: 1.1.4
       uncrypto: 0.1.3
