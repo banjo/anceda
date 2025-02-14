@@ -8,12 +8,12 @@ const logger = createContextLogger("admin-controller");
 export const adminController = createAdminApiInstance().get("/organizations", async c => {
     logger.info("Getting organizations");
 
-    const [error, orgs] = await AdminService.getAllOrganizations();
+    const res = await AdminService.getAllOrganizations();
 
-    if (error) {
-        logger.error({ error }, "Error getting organizations");
-        return ErrorResponse(c, error);
+    if (!res.ok) {
+        logger.error({ message: res.message }, "Failed to get organizations");
+        return ErrorResponse(c, { message: res.message });
     }
 
-    return SuccessResponse(c, orgs);
+    return SuccessResponse(c, res.data);
 });

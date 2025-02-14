@@ -11,7 +11,7 @@ const getAllOrganizations = async () => {
 
     if (error) {
         logger.error({ error }, "Failed to get organizations");
-        return Result.error(error);
+        return Result.error(error.message, "INTERNAL_SERVER_ERROR");
     }
 
     const organizations = orgs.map(Organization.fromDb);
