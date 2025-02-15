@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, Download, MoreHorizontal, Search } from "lucide-react";
 
 import { Button } from "@/client/components/ui/button";
 import { Checkbox } from "@/client/components/ui/checkbox";
@@ -115,7 +115,12 @@ export const columns: ColumnDef<Collection>[] = [
                 <DropdownMenuContent>
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>Browse collection</DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                        <Search size={15} /> Browse
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                        <Download size={15} /> Download
+                    </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
         ),
