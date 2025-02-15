@@ -1,16 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Download, MoreHorizontal, Search } from "lucide-react";
+import { ArrowUpDown, Download, Search } from "lucide-react";
 
 import { Button } from "@/client/components/ui/button";
 import { Checkbox } from "@/client/components/ui/checkbox";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/client/components/ui/dropdown-menu";
+
+import { ActionsDropdown } from "@/client/components/shared/table/actions-dropdown";
 
 export type Image = {
     id: string;
@@ -103,26 +97,13 @@ export const columns: ColumnDef<Collection>[] = [
     },
     {
         id: "action",
-        // make this into a reusable component?
         cell: () => (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="flex items-center gap-2">
-                        <Search size={15} /> Browse
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="flex items-center gap-2">
-                        <Download size={15} /> Download
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <ActionsDropdown
+                actions={[
+                    { action: "Browse", icon: Search },
+                    { action: "Download", icon: Download },
+                ]}
+            />
         ),
         size: 40,
         enableResizing: false,
