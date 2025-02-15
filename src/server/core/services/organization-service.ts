@@ -10,6 +10,10 @@ const logger = createContextLogger("organization-service");
 type CreateProps = {
     name: string;
     type: OrganizationType;
+    /**
+     * The primary organization ID, if this is a sub-organization
+     */
+    primaryOrganizationId?: string;
 };
 const create = async (props: CreateProps): AsyncResultType<Organization> => {
     logger.info({ name: props.name }, "Creating organization");

@@ -97,6 +97,13 @@ model Organization {
   // Custom data
   type OrganizationType @default(PRIMARY)
 
+  // For primary organizations
+  invitedOrganizations Organization[] @relation("OrganizationInvitations") 
+
+  // For secondary organizations
+  primaryOrganization   Organization? @relation("OrganizationInvitations", fields: [primaryOrganizationId], references: [id])
+  primaryOrganizationId String?
+
   @@unique([slug])
   @@map("organization")
 }
