@@ -20,6 +20,7 @@ import {
 } from "@/client/components/ui/table";
 
 import { Button } from "@/client/components/ui/button";
+import { Download } from "lucide-react";
 
 import * as React from "react";
 import { SelectByCategory } from "@/client/components/shared/table/select-by-category";
@@ -70,7 +71,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="w-full h-[80vh]">
-            <div className="flex items-center py-4 gap-2">
+            <div className="flex items-center justify-between py-4 gap-2">
                 {filters?.map(filter => {
                     const categories = Array.from(new Set(data.map(filter.selectFilter)));
                     return (
@@ -85,6 +86,9 @@ export function DataTable<TData, TValue>({
                         </div>
                     );
                 })}
+                <Button variant="outline" size="sm">
+                    <Download /> Export
+                </Button>
             </div>
             <div className="rounded-md border overflow-y-auto">
                 <div className="max-h-[400px]">
