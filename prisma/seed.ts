@@ -32,7 +32,7 @@ async function main() {
             id: "anceda",
             name: "anceda",
             slug: "anceda",
-            type: OrganizationType.Primary,
+            type: OrganizationType.PRIMARY,
         },
     });
 

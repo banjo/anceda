@@ -79,8 +79,8 @@ model Verification {
 }
 
 enum OrganizationType {
-  Primary
-  Secondary
+  PRIMARY
+  SECONDARY
 }
 
 model Organization {
@@ -95,7 +95,7 @@ model Organization {
   invitations Invitation[]
 
   // Custom data
-  type OrganizationType @default(Primary)
+  type OrganizationType @default(PRIMARY)
 
   @@unique([slug])
   @@map("organization")
