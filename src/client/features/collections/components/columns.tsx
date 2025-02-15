@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Download, Search } from "lucide-react";
+import { ArrowUpDown, Download, Search, Trash2 } from "lucide-react";
 
 import { Button } from "@/client/components/ui/button";
 import { Checkbox } from "@/client/components/ui/checkbox";
@@ -100,8 +100,9 @@ export const columns: ColumnDef<Collection>[] = [
         cell: () => (
             <ActionsDropdown
                 actions={[
-                    { action: "Browse", icon: Search },
-                    { action: "Download", icon: Download },
+                    { label: "Browse", icon: Search },
+                    { label: "Download", icon: Download },
+                    { label: "Delete", icon: Trash2, color: "text-red-500" },
                 ]}
             />
         ),

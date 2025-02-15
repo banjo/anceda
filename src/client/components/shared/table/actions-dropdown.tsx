@@ -12,9 +12,11 @@ import { LucideIcon, MoreHorizontal } from "lucide-react";
 import { Button } from "@/client/components/ui/button";
 
 export type Action = {
-    action: string;
+    label: string;
     icon: LucideIcon;
     color?: string;
+    // make action parameter required
+    action?: () => void;
 };
 
 type ActionsDropdownProps = {
@@ -37,7 +39,7 @@ export const ActionsDropdown = ({ actions }: ActionsDropdownProps) => (
                     className={`flex items-center gap-2 ${action.color || "text-inherit"}`}
                 >
                     <action.icon size={15} />
-                    {action.action}
+                    {action.label}
                 </DropdownMenuItem>
             ))}
         </DropdownMenuContent>
