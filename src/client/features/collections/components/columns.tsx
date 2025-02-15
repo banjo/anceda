@@ -2,6 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/client/components/ui/button";
+import { Checkbox } from "@/client/components/ui/checkbox";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -26,6 +27,24 @@ export type Collection = {
 };
 
 export const columns: ColumnDef<Collection>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllRowsSelected() ||
+                    (table.getIsSomeRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={value => table.toggleAllRowsSelected(!!value)}
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={value => row.toggleSelected(!!value)}
+            />
+        ),
+    },
     {
         accessorKey: "name",
         header: "Name",
