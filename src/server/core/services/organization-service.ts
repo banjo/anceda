@@ -1,21 +1,13 @@
 import { prisma } from "@/db";
+import { CreateOrganizationType } from "@/server/api/models/create-organization-schema";
 import { Organization } from "@/server/core/models/organization";
 import { createContextLogger } from "@/utils/context-logger";
 import { AsyncResultType, Result } from "@/utils/result";
 import { to, uuid } from "@banjoanton/utils";
-import { OrganizationType } from "@prisma/client";
 
 const logger = createContextLogger("organization-service");
 
-type CreateProps = {
-    name: string;
-    type: OrganizationType;
-    /**
-     * The primary organization ID, if this is a sub-organization
-     */
-    primaryOrganizationId?: string;
-};
-const create = async (props: CreateProps): AsyncResultType<Organization> => {
+const create = async (props: CreateOrganizationType): AsyncResultType<Organization> => {
     logger.info({ name: props.name }, "Creating organization");
     const baseSlug = props.name.toLowerCase().replace(/ /g, "-");
     const uniqueSlug = `${baseSlug}-${uuid()}`;

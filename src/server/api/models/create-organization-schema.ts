@@ -7,4 +7,4 @@ export const CreateOrganizationSchema = z.object({
     primaryOrganizationId: z.string().optional(),
 });
 
-export type CreateOrganizationSchemaType = z.infer<typeof CreateOrganizationSchema>;
+export type CreateOrganizationType = z.infer<typeof CreateOrganizationSchema>;
