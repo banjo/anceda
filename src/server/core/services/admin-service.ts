@@ -1,12 +1,12 @@
 import { prisma } from "@/db";
 import { Organization } from "@/server/core/models/organization";
 import { createContextLogger } from "@/utils/context-logger";
-import { Result } from "@/utils/result";
+import { AsyncResultType, Result } from "@/utils/result";
 import { to } from "@banjoanton/utils";
 
 const logger = createContextLogger("admin-controller");
 
-const getAllOrganizations = async () => {
+const getAllOrganizations = async (): AsyncResultType<Organization[]> => {
     const [error, orgs] = await to(() => prisma.organization.findMany());
 
     if (error) {
