@@ -1,5 +1,5 @@
 import { createAdminApiInstance } from "@/server/api/api-instance";
-import { ErrorResponse, SuccessResponse } from "@/server/api/controller-model";
+import { createResponseFromResult } from "@/server/api/controller-model";
 import { AdminService } from "@/server/core/services/admin-service";
 import { createContextLogger } from "@/utils/context-logger";
 
@@ -10,10 +10,5 @@ export const adminController = createAdminApiInstance().get("/organizations", as
 
     const res = await AdminService.getAllOrganizations();
 
-    if (!res.ok) {
-        logger.error({ message: res.message }, "Failed to get organizations");
-        return ErrorResponse(c, { message: res.message });
-    }
-
-    return SuccessResponse(c, res.data);
+    return createResponseFromResult(res, c);
 });

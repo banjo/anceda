@@ -13,7 +13,7 @@ const signIn = async ({ email, password }: SignInProps): AsyncResultType => {
     });
 
     if (error) {
-        return Result.error(new Error(error.message ?? "Could not sign in"));
+        return Result.error(error.message ?? "Could not sign in", "UNAUTHORIZED");
     }
 
     // TODO: error check and fetch user data, get active organization, etc.
@@ -26,7 +26,7 @@ const signOut = async (): AsyncResultType => {
     const { data, error } = await authClient.signOut();
 
     if (error) {
-        return Result.error(new Error(error.message ?? "Could not sign out"));
+        return Result.error(error.message ?? "Could not sign out", "INTERNAL_SERVER_ERROR");
     }
 
     console.log({ data });

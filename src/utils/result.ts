@@ -8,5 +8,5 @@ type ErrorType =
     | "BAD_REQUEST";
 
 export const Result = createResultWithType<ErrorType>();
-export type ResultType<T = undefined> = ResultWithType<T, ErrorType>;
-export type AsyncResultType<T = undefined> = Promise<ResultType<T>>;
+export type ResultType<T = void> = ResultWithType<T, ErrorType>;
+export type AsyncResultType<T = void> = Promise<ResultType<T>>;

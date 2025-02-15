@@ -46,13 +46,13 @@ export const LoginContainer = () => {
         setIsLoading(true);
         setError(undefined);
 
-        const [err] = await signIn({
+        const res = await signIn({
             email: "test@test.com",
             password: "123qweASD",
         });
 
-        if (err) {
-            setError(err.message);
+        if (!res.ok) {
+            setError(res.message);
             setIsLoading(false);
             return;
         }
