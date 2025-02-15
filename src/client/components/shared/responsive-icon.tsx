@@ -1,8 +1,8 @@
 import { noop } from "@banjoanton/utils";
 import { FC } from "react";
 import { cn } from "@/utils/utils";
-import { IconSize, iconSizeMapper, IconType } from "./icons";
 import { Tooltip } from "./tooltip";
+import { IconSize, iconSizeMapper, IconType } from "@/client/components/models/icon";
 
 type FilterIconProps = {
     Icon: IconType;
