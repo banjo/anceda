@@ -34,16 +34,12 @@ export type Filter<TData> = {
 export type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    hideHeaderText?: string[];
-    hideColumns?: string[];
     filters?: Filter<TData>[];
 };
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    hideHeaderText,
-    hideColumns,
     filters,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -57,6 +53,9 @@ export function DataTable<TData, TValue>({
         initialState: {
             pagination: {
                 pageSize: 5,
+            },
+            columnVisibility: {
+                event: false,
             },
         },
         onSortingChange: setSorting,
@@ -99,20 +98,16 @@ export function DataTable<TData, TValue>({
                         >
                             {table.getHeaderGroups().map(headerGroup => (
                                 <TableRow key={headerGroup.id}>
-                                    {headerGroup.headers
-                                        .filter(
-                                            header => !hideHeaderText?.includes(header.column.id)
-                                        )
-                                        .map(header => (
-                                            <TableHead key={header.id}>
-                                                {header.isPlaceholder
-                                                    ? null
-                                                    : flexRender(
-                                                          header.column.columnDef.header,
-                                                          header.getContext()
-                                                      )}
-                                            </TableHead>
-                                        ))}
+                                    {headerGroup.headers.map(header => (
+                                        <TableHead key={header.id}>
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(
+                                                      header.column.columnDef.header,
+                                                      header.getContext()
+                                                  )}
+                                        </TableHead>
+                                    ))}
                                 </TableRow>
                             ))}
                         </TableHeader>
@@ -123,17 +118,14 @@ export function DataTable<TData, TValue>({
                                         key={row.id}
                                         data-state={row.getIsSelected() && "selected"}
                                     >
-                                        {row
-                                            .getVisibleCells()
-                                            .filter(cell => !hideColumns?.includes(cell.column.id))
-                                            .map(cell => (
-                                                <TableCell key={cell.id}>
-                                                    {flexRender(
-                                                        cell.column.columnDef.cell,
-                                                        cell.getContext()
-                                                    )}
-                                                </TableCell>
-                                            ))}
+                                        {row.getVisibleCells().map(cell => (
+                                            <TableCell key={cell.id}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </TableCell>
+                                        ))}
                                     </TableRow>
                                 ))
                             ) : (

@@ -98,12 +98,12 @@ export const columns: ColumnDef<Collection>[] = [
         },
     },
     {
+        id: "event",
         accessorKey: "event",
-        header: "Event",
-        enableHiding: true,
     },
     {
         id: "action",
+        // make this into a reusable component?
         cell: () => (
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>

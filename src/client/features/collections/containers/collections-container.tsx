@@ -112,8 +112,6 @@ export const CollectionsContainer = () => {
         <DataTable
             columns={columns}
             data={collectionsByDate}
-            hideColumns={["event"]}
-            hideHeaderText={["event"]}
             filters={[
                 {
                     columnId: "event",
