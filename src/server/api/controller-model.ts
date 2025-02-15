@@ -17,7 +17,7 @@ export const NotFoundResponse = (c: Context, data: ControllerErrorData) => c.jso
 export const UnauthorizedResponse = (c: Context, data: ControllerErrorData) => c.json(data, 401);
 export const ForbiddenResponse = (c: Context, data: ControllerErrorData) => c.json(data, 403);
 
-export const createResponseFromResult = (res: ResultType<any>, c: Context) => {
+export const createResponseFromResult = <T extends JSONValue>(res: ResultType<T>, c: Context) => {
     if (res.ok) {
         logger.info("Successfully handled request");
         return SuccessResponse(c, res.data);
