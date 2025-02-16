@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
                 </Button>
             </div>
             <div className="rounded-md border overflow-y-auto">
-                <div className="max-h-[400px]">
+                <div className="max-h-[65vh]">
                     <Table className="relative">
                         <TableHeader
                             style={{ boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.1)" }}
