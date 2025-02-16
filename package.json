@@ -29,7 +29,7 @@
         "typecheck": "tsc --noEmit",
         "lint": "eslint .",
         "format": "prettier --write .",
-        "hoks:init": "nlx hoks --init",
+        "hoks:init": "pnpm dlx hoks --init",
         "content:generate": "tsx ./scripts/generate-content.ts"
     },
     "dependencies": {
