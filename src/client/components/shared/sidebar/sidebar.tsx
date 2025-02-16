@@ -60,7 +60,7 @@ export const AppSidebar = ({ ...props }) => {
             isCollapsible: false,
         },
         {
-            name: "Partnes",
+            name: "Partners",
             url: "/dashboard/partners",
             icon: Handshake,
             isCollapsible: false,
