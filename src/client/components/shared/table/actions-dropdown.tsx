@@ -36,7 +36,7 @@ export const ActionsDropdown = ({ actions }: ActionsDropdownProps) => (
             <DropdownMenuSeparator />
             {actions.map(action => (
                 <DropdownMenuItem
-                    className={`flex items-center gap-2 ${action.color || "text-inherit"}`}
+                    className={`flex items-center gap-1 ${action.color || "text-inherit"}`}
                 >
                     <action.icon size={15} />
                     {action.label}
