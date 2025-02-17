@@ -20,9 +20,9 @@ import {
 } from "@/client/components/ui/table";
 
 import { Button } from "@/client/components/ui/button";
-import { Download } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 
-import * as React from "react";
+import { useState } from "react";
 import { SelectByCategory } from "@/client/components/shared/table/select-by-category";
 
 export type Filter<TData> = {
@@ -35,15 +35,24 @@ export type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     filters?: Filter<TData>[];
+    hideColumns?: { [columnId: string]: false };
+    topButton?: {
+        label: string;
+        // TODO: make handleClick required
+        handleClick?: () => void;
+        icon: LucideIcon;
+    };
 };
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     filters,
+    hideColumns,
+    topButton,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
     const table = useReactTable({
         data,
@@ -54,9 +63,7 @@ export function DataTable<TData, TValue>({
             pagination: {
                 pageSize: 5,
             },
-            columnVisibility: {
-                event: false,
-            },
+            columnVisibility: hideColumns,
         },
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
@@ -85,9 +92,16 @@ export function DataTable<TData, TValue>({
                         </div>
                     );
                 })}
-                <Button variant="outline" size="sm">
-                    <Download /> Export
-                </Button>
+                {topButton ? (
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={topButton.handleClick}
+                        disabled={!topButton.handleClick}
+                    >
+                        <topButton.icon /> {topButton.label}
+                    </Button>
+                ) : null}
             </div>
             <div className="rounded-md border overflow-y-auto">
                 <div className="max-h-[65vh]">

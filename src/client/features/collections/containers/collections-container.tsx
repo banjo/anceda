@@ -1,5 +1,6 @@
 import { DataTable } from "@/client/components/shared/table/data-table";
 import { Collection, columns } from "@/client/features/collections/components/columns";
+import { Download } from "lucide-react";
 
 export const CollectionsContainer = () => {
     const collections: Collection[] = [
@@ -119,6 +120,8 @@ export const CollectionsContainer = () => {
                     placeholder: "Select event",
                 },
             ]}
+            hideColumns={{ event: false }}
+            topButton={{ label: "Export", icon: Download }}
         />
     );
 };
