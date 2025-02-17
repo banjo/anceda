@@ -11,5 +11,5 @@ export const useForceOverview = () => {
         if (!auth.isPending && auth.isAuthenticated && pathname === "/dashboard") {
             navigate({ to: "/dashboard/overview" });
         }
-    }, [auth, navigate]);
+    }, [auth, navigate, pathname]);
 };
