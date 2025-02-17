@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { Role } from "../src/server/core/models/role";
+import { UserRole } from "../src/server/core/models/role";
 import { OrganizationType } from "@prisma/client";
 
 async function main() {
@@ -8,7 +8,7 @@ async function main() {
             email: "test@test.com",
             name: "test",
             emailVerified: true,
-            role: Role.ADMIN,
+            role: UserRole.ADMIN,
         },
     });
 
@@ -33,6 +33,12 @@ async function main() {
             name: "anceda",
             slug: "anceda",
             type: OrganizationType.PRIMARY,
+            invitedOrganizations: {
+                create: {
+                    name: "secondary",
+                    type: OrganizationType.SECONDARY,
+                },
+            },
         },
     });
 

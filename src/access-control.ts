@@ -5,14 +5,6 @@ import {
     ownerAc,
 } from "better-auth/plugins/access";
 
-export const OrganizationRole = {
-    SUPER_ADMIN: "SUPER_ADMIN",
-    PRIMARY_OWNER: "PRIMARY_OWNER",
-    PRIMARY_ADMIN: "PRIMARY_ADMIN",
-    SECONDARY_OWNER: "SECONDARY_OWNER",
-    SECONDARY_ADMIN: "SECONDARY_ADMIN",
-} as const;
-
 const statement = {
     ...defaultStatements,
     collection: ["create", "read", "update", "delete"],

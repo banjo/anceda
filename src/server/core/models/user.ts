@@ -1,5 +1,5 @@
 import { ApiSession, ApiUser } from "@/server/auth";
-import { parseRole, Role } from "@/server/core/models/role";
+import { parseUserRole, UserRole } from "@/server/core/models/role";
 import { Maybe } from "@banjoanton/utils";
 
 export type User = {
@@ -8,7 +8,7 @@ export type User = {
     email: string;
     isVerified: boolean;
     image: Maybe<string>;
-    role: Role;
+    role: UserRole;
     isAdmin: boolean;
     createdAt: Date;
     ipAddress: Maybe<string>;
@@ -26,7 +26,7 @@ export const User = {
         ipAddress: session.ipAddress ?? undefined,
         isVerified: user.emailVerified,
         name: user.name,
-        role: parseRole(user.role),
-        isAdmin: parseRole(user.role) === Role.ADMIN,
+        role: parseUserRole(user.role),
+        isAdmin: parseUserRole(user.role) === UserRole.ADMIN,
     }),
 };
