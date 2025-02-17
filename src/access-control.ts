@@ -6,11 +6,11 @@ import {
 } from "better-auth/plugins/access";
 
 export const OrganizationRole = {
-    SUPER_ADMIN: "superAdmin",
-    PRIMARY_OWNER: "primaryOwner",
-    PRIMARY_ADMIN: "primaryAdmin",
-    SECONDARY_OWNER: "secondaryOwner",
-    SECONDARY_ADMIN: "secondaryAdmin",
+    SUPER_ADMIN: "SUPER_ADMIN",
+    PRIMARY_OWNER: "PRIMARY_OWNER",
+    PRIMARY_ADMIN: "PRIMARY_ADMIN",
+    SECONDARY_OWNER: "SECONDARY_OWNER",
+    SECONDARY_ADMIN: "SECONDARY_ADMIN",
 } as const;
 
 const statement = {
@@ -49,4 +49,10 @@ const secondaryAdmin = ac.newRole({
     collection: ["read"],
 });
 
-export const roles = { superAdmin, primaryOwner, primaryAdmin, secondaryOwner, secondaryAdmin };
+export const roles = {
+    SUPER_ADMIN: superAdmin,
+    PRIMARY_OWNER: primaryOwner,
+    PRIMARY_ADMIN: primaryAdmin,
+    SECONDARY_OWNER: secondaryOwner,
+    SECONDARY_ADMIN: secondaryAdmin,
+};

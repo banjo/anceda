@@ -40,7 +40,7 @@ const fromDb = (dbOrg: DbOrganization): Organization => {
         return {
             ...base,
             orgnizationType: "PRIMARY",
-            invitedOrganizations: [], // TODO: get invited organizations
+            invitedOrganizations: [], // TODO: Implement this
         };
     }
 

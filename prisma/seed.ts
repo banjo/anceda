@@ -39,7 +39,7 @@ async function main() {
     await prisma.member.create({
         data: {
             id: "test-user",
-            role: "superAdmin",
+            role: "SUPER_ADMIN",
             organizationId: "anceda",
             userId: user.id,
         },
