@@ -15,7 +15,7 @@ export type Action = {
     label: string;
     icon: LucideIcon;
     color?: string;
-    // make action parameter required
+    // TODO: make action parameter required
     action?: () => void;
 };
 
