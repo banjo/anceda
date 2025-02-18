@@ -1,4 +1,4 @@
-import { createLogger } from "@/utils/logger";
+import { createContextLogger } from "@/utils/context-logger";
 import { ResultType } from "@/utils/result";
 import { Context } from "hono";
 import { JSONValue } from "hono/utils/types";
@@ -8,7 +8,7 @@ export type ControllerErrorData = {
     meta?: Record<string, unknown>;
 };
 
-const logger = createLogger("controller-model");
+const logger = createContextLogger("controller-model");
 
 export const SuccessResponse = <TData extends JSONValue>(c: Context, data: TData) =>
     c.json(data, 200);
