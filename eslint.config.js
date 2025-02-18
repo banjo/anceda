@@ -1,6 +1,9 @@
 import defaultConfig from "@banjoanton/eslint-config";
 
 export default [
+    {
+        ignores: ["eslint.config.js", "node_modules", "build*", "dist*"],
+    },
     ...defaultConfig,
     {
         rules: {
