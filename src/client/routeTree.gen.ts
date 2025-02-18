@@ -16,6 +16,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as AuthDashboardImport } from './routes/_auth.dashboard'
 import { Route as AuthDashboardOverviewImport } from './routes/_auth.dashboard.overview'
 import { Route as AuthDashboardCollectionsImport } from './routes/_auth.dashboard.collections'
+import { Route as AuthDashboardCollectionsCollectionIdImport } from './routes/_auth.dashboard.collections.$collectionId'
 
 // Create/Update Routes
 
@@ -47,6 +48,13 @@ const AuthDashboardCollectionsRoute = AuthDashboardCollectionsImport.update({
   path: '/collections',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
+
+const AuthDashboardCollectionsCollectionIdRoute =
+  AuthDashboardCollectionsCollectionIdImport.update({
+    id: '/$collectionId',
+    path: '/$collectionId',
+    getParentRoute: () => AuthDashboardCollectionsRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -87,18 +95,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardOverviewImport
       parentRoute: typeof AuthDashboardImport
     }
+    '/_auth/dashboard/collections/$collectionId': {
+      id: '/_auth/dashboard/collections/$collectionId'
+      path: '/$collectionId'
+      fullPath: '/dashboard/collections/$collectionId'
+      preLoaderRoute: typeof AuthDashboardCollectionsCollectionIdImport
+      parentRoute: typeof AuthDashboardCollectionsImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthDashboardCollectionsRouteChildren {
+  AuthDashboardCollectionsCollectionIdRoute: typeof AuthDashboardCollectionsCollectionIdRoute
+}
+
+const AuthDashboardCollectionsRouteChildren: AuthDashboardCollectionsRouteChildren =
+  {
+    AuthDashboardCollectionsCollectionIdRoute:
+      AuthDashboardCollectionsCollectionIdRoute,
+  }
+
+const AuthDashboardCollectionsRouteWithChildren =
+  AuthDashboardCollectionsRoute._addFileChildren(
+    AuthDashboardCollectionsRouteChildren,
+  )
+
 interface AuthDashboardRouteChildren {
-  AuthDashboardCollectionsRoute: typeof AuthDashboardCollectionsRoute
+  AuthDashboardCollectionsRoute: typeof AuthDashboardCollectionsRouteWithChildren
   AuthDashboardOverviewRoute: typeof AuthDashboardOverviewRoute
 }
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
-  AuthDashboardCollectionsRoute: AuthDashboardCollectionsRoute,
+  AuthDashboardCollectionsRoute: AuthDashboardCollectionsRouteWithChildren,
   AuthDashboardOverviewRoute: AuthDashboardOverviewRoute,
 }
 
@@ -120,16 +150,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
   '/dashboard': typeof AuthDashboardRouteWithChildren
-  '/dashboard/collections': typeof AuthDashboardCollectionsRoute
+  '/dashboard/collections': typeof AuthDashboardCollectionsRouteWithChildren
   '/dashboard/overview': typeof AuthDashboardOverviewRoute
+  '/dashboard/collections/$collectionId': typeof AuthDashboardCollectionsCollectionIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthRouteWithChildren
   '/dashboard': typeof AuthDashboardRouteWithChildren
-  '/dashboard/collections': typeof AuthDashboardCollectionsRoute
+  '/dashboard/collections': typeof AuthDashboardCollectionsRouteWithChildren
   '/dashboard/overview': typeof AuthDashboardOverviewRoute
+  '/dashboard/collections/$collectionId': typeof AuthDashboardCollectionsCollectionIdRoute
 }
 
 export interface FileRoutesById {
@@ -137,8 +169,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_auth/dashboard': typeof AuthDashboardRouteWithChildren
-  '/_auth/dashboard/collections': typeof AuthDashboardCollectionsRoute
+  '/_auth/dashboard/collections': typeof AuthDashboardCollectionsRouteWithChildren
   '/_auth/dashboard/overview': typeof AuthDashboardOverviewRoute
+  '/_auth/dashboard/collections/$collectionId': typeof AuthDashboardCollectionsCollectionIdRoute
 }
 
 export interface FileRouteTypes {
@@ -149,8 +182,15 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/collections'
     | '/dashboard/overview'
+    | '/dashboard/collections/$collectionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/dashboard' | '/dashboard/collections' | '/dashboard/overview'
+  to:
+    | '/'
+    | ''
+    | '/dashboard'
+    | '/dashboard/collections'
+    | '/dashboard/overview'
+    | '/dashboard/collections/$collectionId'
   id:
     | '__root__'
     | '/'
@@ -158,6 +198,7 @@ export interface FileRouteTypes {
     | '/_auth/dashboard'
     | '/_auth/dashboard/collections'
     | '/_auth/dashboard/overview'
+    | '/_auth/dashboard/collections/$collectionId'
   fileRoutesById: FileRoutesById
 }
 
@@ -204,11 +245,18 @@ export const routeTree = rootRoute
     },
     "/_auth/dashboard/collections": {
       "filePath": "_auth.dashboard.collections.tsx",
-      "parent": "/_auth/dashboard"
+      "parent": "/_auth/dashboard",
+      "children": [
+        "/_auth/dashboard/collections/$collectionId"
+      ]
     },
     "/_auth/dashboard/overview": {
       "filePath": "_auth.dashboard.overview.tsx",
       "parent": "/_auth/dashboard"
+    },
+    "/_auth/dashboard/collections/$collectionId": {
+      "filePath": "_auth.dashboard.collections.$collectionId.tsx",
+      "parent": "/_auth/dashboard/collections"
     }
   }
 }
