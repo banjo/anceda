@@ -16,9 +16,5 @@ export const CollectionContainer = () => {
 
     const parmas = useParams({ strict: false });
 
-    return (
-        <div className="flex min-h-screen flex-col items-center justify-between p-6">
-            <ImageGridCarousel images={images} />
-        </div>
-    );
+    return <ImageGridCarousel images={images} />;
 };

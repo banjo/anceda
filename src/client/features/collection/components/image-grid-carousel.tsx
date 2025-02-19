@@ -26,20 +26,19 @@ export function ImageGridCarousel({ images }: ImageGridCarouselProps) {
     );
 
     return (
-        <div className="w-full max-w-6xl mx-auto p-4">
+        <div className="w-full flex items-center justify-center px-10">
             <Carousel className="w-full">
-                <CarouselContent>
+                <CarouselContent className="-ml-4">
                     {pages.map((pageImages, pageIndex) => (
-                        <CarouselItem key={pageIndex}>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
+                        <CarouselItem key={pageIndex} className="transform">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-2">
                                 {pageImages.map(image => (
                                     <div key={image.id} className="relative aspect-square">
                                         <img
                                             src={image.src || "/placeholder.svg"}
                                             alt={image.alt}
-                                            className="object-cover w-40 h-40 rounded-md cursor-pointer border"
+                                            className="object-cover rounded-md cursor-pointer shadow"
                                         />
-                                        <Checkbox className="absolute top-2 left-2 z-10" />
                                     </div>
                                 ))}
                             </div>
