@@ -1,19 +1,12 @@
-import { ac, roles } from "@/access-control";
 import { Config } from "@/config";
 import { PrismaClient } from "@prisma/client";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { admin, organization } from "better-auth/plugins";
+import { admin } from "better-auth/plugins";
 
 const prisma = new PrismaClient();
 export const auth = betterAuth({
-    plugins: [
-        organization({
-            ac,
-            roles,
-        }),
-        admin(),
-    ],
+    plugins: [admin()],
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
