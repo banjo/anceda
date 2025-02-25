@@ -1,5 +1,3 @@
-import { exhaustiveCheck } from "@banjoanton/utils";
-
 export const UserRole = {
     ADMIN: "admin",
     USER: "user",
@@ -17,7 +15,6 @@ export const parseUserRole = (role: unknown): UserRole => {
 };
 
 export const OrganizationRole = {
-    // SUPER_ADMIN: "SUPER_ADMIN",
     PRIMARY_OWNER: "PRIMARY_OWNER",
     PRIMARY_ADMIN: "PRIMARY_ADMIN",
     SECONDARY_OWNER: "SECONDARY_OWNER",
@@ -27,8 +24,6 @@ export type OrganizationRole = (typeof OrganizationRole)[keyof typeof Organizati
 
 export const parseOrganizationRole = (role: unknown): OrganizationRole => {
     switch (role) {
-        // case OrganizationRole.SUPER_ADMIN:
-        //     return OrganizationRole.SUPER_ADMIN;
         case OrganizationRole.PRIMARY_OWNER:
             return OrganizationRole.PRIMARY_OWNER;
         case OrganizationRole.PRIMARY_ADMIN:

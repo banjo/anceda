@@ -25,6 +25,8 @@ export const ValidPermissions = {
     COLLECTION: [Action.CREATE, Action.READ, Action.UPDATE, Action.DELETE],
 } as const;
 
+export type ValidPermissions = typeof ValidPermissions;
+
 export type Permission = {
     [K in keyof typeof ValidPermissions]?:
         | ReadonlyArray<(typeof ValidPermissions)[K][number]>
@@ -35,7 +37,7 @@ export type RBAC = {
     [key in OrganizationRole]: Permission;
 };
 
-export const permissions: RBAC = {
+export const PERMISSIONS: RBAC = {
     PRIMARY_OWNER: {
         ORGANIZATION: [Action.UPDATE],
         SECONDARY_ORGANIZATION: [Action.CREATE],

@@ -1,12 +1,37 @@
 import { Config } from "@/config";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/db";
+import { UserService } from "@/server/core/services/user-service";
+import { createContextLogger } from "@/utils/context-logger";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { admin } from "better-auth/plugins";
+import { admin, customSession } from "better-auth/plugins";
 
-const prisma = new PrismaClient();
+const logger = createContextLogger("auth");
+
 export const auth = betterAuth({
-    plugins: [admin()],
+    plugins: [
+        admin(),
+        customSession(async ({ user, session }) => {
+            const orgResult = await UserService.getActiveOrganization(user.id);
+
+            if (!orgResult.ok) {
+                logger.error({ message: orgResult.message }, "Failed to get active organization");
+                return {
+                    user,
+                    session,
+                };
+            }
+
+            return {
+                user: {
+                    ...user,
+                    organizationId: orgResult.data.id,
+                    organizationRole: orgResult.data.role,
+                },
+                session,
+            };
+        }),
+    ],
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
@@ -21,5 +46,16 @@ export const auth = betterAuth({
     trustedOrigins: Config.trustedOrigins,
 });
 
-export type ApiUser = typeof auth.$Infer.Session.user;
-export type ApiSession = typeof auth.$Infer.Session.session;
+export type CustomApiUserData = {
+    organizationId: string;
+    organizationRole: string;
+};
+
+export type ApiUser = typeof auth.$Infer.Session.user & CustomApiUserData;
+
+type ApiSession = typeof auth.$Infer.Session.session;
+
+export type ApiFullSession = {
+    user: ApiUser;
+    session: ApiSession;
+};
