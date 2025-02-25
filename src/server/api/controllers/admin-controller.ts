@@ -15,7 +15,7 @@ export const adminController = createAdminApiInstance()
         const res = await AdminService.getAllOrganizations();
         return createResponseFromResult(res, c);
     })
-    .post("/organisation", sValidator("json", CreateOrganizationSchema), async c => {
+    .post("/organization", sValidator("json", CreateOrganizationSchema), async c => {
         const body = c.req.valid("json");
         logger.info({ name: body.name }, "Creating organization request");
 
