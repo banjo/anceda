@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { UserRole } from "../src/server/core/models/role";
+import { OrganizationRole, UserRole } from "@/server/core/models/role";
 import { OrganizationType } from "@prisma/client";
 
 async function main() {
@@ -45,7 +45,7 @@ async function main() {
     await prisma.member.create({
         data: {
             id: "test-user",
-            role: "PRIMARY_OWNER",
+            role: OrganizationRole.PRIMARY_OWNER,
             organizationId: "anceda",
             userId: user.id,
         },
