@@ -16,10 +16,7 @@ export const auth = betterAuth({
 
             if (!orgResult.ok) {
                 logger.error({ message: orgResult.message }, "Failed to get active organization");
-                return {
-                    user,
-                    session,
-                };
+                throw new Error("Failed to get active organization");
             }
 
             return {
@@ -53,7 +50,7 @@ export type CustomApiUserData = {
 
 export type ApiUser = typeof auth.$Infer.Session.user & CustomApiUserData;
 
-type ApiSession = typeof auth.$Infer.Session.session;
+export type ApiSession = typeof auth.$Infer.Session.session;
 
 export type ApiFullSession = {
     user: ApiUser;

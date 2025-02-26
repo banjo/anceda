@@ -1,4 +1,3 @@
-import { authClient } from "@/client/auth-client";
 import { client } from "@/client/client";
 import { Button } from "@/client/components/ui/button";
 import { useAuth } from "@/client/core/providers/auth-provider";
@@ -10,17 +9,10 @@ export const Route = createFileRoute("/_auth/dashboard/overview")({
 
 function DashboardOverview() {
     const auth = useAuth();
+    console.log({ auth });
 
     const onLogout = async () => {
         await auth.signOut();
-    };
-
-    const onPermission = async () => {
-        const { data, error } = await authClient.organization.hasPermission({
-            permission: { organization: ["update"] },
-        });
-
-        console.log({ data, error });
     };
 
     const onAdmin = async () => {
@@ -37,7 +29,6 @@ function DashboardOverview() {
 
             <div className="flex gap-2">
                 <Button onClick={onLogout}>Logout</Button>
-                <Button onClick={onPermission}>Permission</Button>
                 <Button onClick={onAdmin}>Admin</Button>
             </div>
 

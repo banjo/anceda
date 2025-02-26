@@ -16,16 +16,14 @@ export type User = {
     role: UserRole;
     isAdmin: boolean;
     createdAt: Date;
-    ipAddress: Maybe<string>;
     organizationId: string;
     organizationRole: OrganizationRole;
 };
 
 export const User = {
     from: (user: User): User => user,
-    fromHeaders: (fullSession: ApiFullSession): User => {
+    fromApiSession: (fullSession: ApiFullSession): User => {
         const user = fullSession.user;
-        const session = fullSession.session;
 
         return {
             id: user.id,
@@ -34,7 +32,6 @@ export const User = {
             createdAt: user.createdAt,
             email: user.email,
             image: user.image ?? undefined,
-            ipAddress: session.ipAddress ?? undefined,
             isVerified: user.emailVerified,
             name: user.name,
             role: parseUserRole(user.role),

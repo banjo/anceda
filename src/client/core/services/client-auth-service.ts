@@ -16,9 +16,6 @@ const signIn = async ({ email, password }: SignInProps): AsyncResultType => {
         return Result.error(error.message ?? "Could not sign in", "UNAUTHORIZED");
     }
 
-    // TODO: error check and fetch user data, get active organization, etc.
-    await authClient.organization.setActive({ organizationSlug: "anceda" });
-
     return Result.ok();
 };
 

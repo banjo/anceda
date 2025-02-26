@@ -1,7 +1,9 @@
-import { authClient, AuthSession, AuthUser } from "@/client/auth-client";
+import { authClient } from "@/client/auth-client";
 import { ClientAuthService, SignInProps } from "@/client/core/services/client-auth-service";
+import { ApiFullSession, ApiSession, ApiUser } from "@/server/auth";
+import { User } from "@/server/core/models/user";
 import { AsyncResultType, Result } from "@/utils/result";
-import { isDefined } from "@banjoanton/utils";
+import { isDefined, Maybe } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";
 import {
     createContext,
@@ -21,8 +23,8 @@ type AuthBase = {
 
 type AuthenticatedResult = {
     isAuthenticated: true;
-    user: AuthUser;
-    session: AuthSession;
+    user: User;
+    session: ApiSession;
 };
 
 type UnauthenticatedResult = {
@@ -48,8 +50,8 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
     const auth = authClient.useSession();
-    const hasSession = isDefined(auth?.data?.session?.token);
     const [allowAuthentication, setAllowAuthentication] = useState(true);
+    const hasSession = isDefined(auth?.data?.session?.token);
 
     const signIn = useCallback(async (props: SignInProps) => {
         setAllowAuthentication(true);
@@ -82,13 +84,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         [auth.isPending, auth.error, signIn, signOut]
     );
 
-    const authData = auth?.data ?? undefined;
+    const data = auth?.data as unknown as Maybe<ApiFullSession>; // correct type is not inferred by better-auth
     const contextValue: AuthData = useMemo(() => {
-        if (isAuthenticated && authData) {
+        if (isAuthenticated && data) {
             return {
                 isAuthenticated: true,
-                user: authData.user,
-                session: authData.session,
+                user: User.fromApiSession(data),
+                session: data.session,
                 ...base,
             };
         }
@@ -99,7 +101,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
             session: undefined,
             ...base,
         };
-    }, [isAuthenticated, authData, base]);
+    }, [isAuthenticated, data, base]);
 
     return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };
