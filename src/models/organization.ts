@@ -19,12 +19,26 @@ export type Member = {
     userId: string;
 };
 
+export const InvitationStatus = {
+    PENDING: "PENDING",
+    ACCEPTED: "ACCEPTED",
+    DECLINED: "DECLINED",
+} as const;
+
+export const parseInvitationStatus = (status: string): InvitationStatus => {
+    invariant(status in InvitationStatus, "Invalid invitation status");
+    return status as InvitationStatus;
+};
+
+export type InvitationStatus = keyof typeof InvitationStatus;
+
 export type Invitation = {
     id: string;
     email: string;
     role: OrganizationRole;
     organizationId: string;
     expiresAt: Date;
+    status: InvitationStatus;
 };
 
 export const OrganizationType = {
@@ -85,6 +99,7 @@ const fullFromDb = (org: DatabaseOrganization): FullOrganization => {
             role: parseOrganizationRole(inv.role),
             organizationId: inv.organizationId,
             expiresAt: inv.expiresAt,
+            status: parseInvitationStatus(inv.status),
         })),
         members: org.members.map(mem => ({
             id: mem.id,
