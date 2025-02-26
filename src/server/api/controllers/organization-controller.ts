@@ -3,7 +3,7 @@ import { createAuthorizedApiInstance } from "@/server/api/api-instance";
 import { createResponseFromResult } from "@/server/api/controller-model";
 import { organizationMiddleware } from "@/server/core/middleware/organization-middleware";
 import { permissionMiddleware } from "@/server/core/middleware/permission-middleware";
-import { OrganizationType } from "@/server/core/models/organization";
+import { OrganizationType } from "@/models/organization";
 import { OrganizationService } from "@/server/core/services/organization-service";
 import { createContextLogger } from "@/utils/context-logger";
 import { sValidator } from "@hono/standard-validator";

@@ -1,6 +1,6 @@
 import { PERMISSIONS, Resource, ValidPermissions } from "@/models/access-control";
-import { OrganizationRole } from "@/server/core/models/role";
-import { User } from "@/server/core/models/user";
+import { OrganizationRole } from "@/models/role";
+import { User } from "@/models/user";
 
 const hasPermission = <R extends Resource>(
     role: OrganizationRole,

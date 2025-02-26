@@ -1,7 +1,7 @@
 import { authClient } from "@/client/auth-client";
 import { ClientAuthService, SignInProps } from "@/client/core/services/client-auth-service";
 import { ApiFullSession, ApiSession, ApiUser } from "@/server/auth";
-import { User } from "@/server/core/models/user";
+import { User } from "@/models/user";
 import { AsyncResultType, Result } from "@/utils/result";
 import { isDefined, Maybe } from "@banjoanton/utils";
 import { BetterFetchError } from "better-auth/react";

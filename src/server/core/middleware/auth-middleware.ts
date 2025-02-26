@@ -1,5 +1,5 @@
 import { ApiFullSession, auth } from "@/server/auth";
-import { User } from "@/server/core/models/user";
+import { User } from "@/models/user";
 import { createContextLogger } from "@/utils/context-logger";
 import { uuid } from "@banjoanton/utils";
 import { createMiddleware } from "hono/factory";

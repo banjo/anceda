@@ -1,6 +1,6 @@
 import { prisma } from "@/db";
 import { CreateOrganizationType } from "@/server/api/models/create-organization-schema";
-import { Organization } from "@/server/core/models/organization";
+import { Organization } from "@/models/organization";
 import { ORGANIZATION_INCLUDE_CLAUSE } from "@/server/core/models/prisma";
 import { createContextLogger } from "@/utils/context-logger";
 import { AsyncResultType, Result } from "@/utils/result";

@@ -1,4 +1,4 @@
-import { OrganizationRole, parseOrganizationRole } from "@/server/core/models/role";
+import { OrganizationRole, parseOrganizationRole } from "@/models/role";
 import { invariant } from "@banjoanton/utils";
 import { Prisma, Organization as PrismaOrganization } from "@prisma/client";
 

@@ -1,6 +1,6 @@
 import { Action, Resource } from "@/models/access-control";
 import { UnauthorizedResponse } from "@/server/api/controller-model";
-import { User } from "@/server/core/models/user";
+import { User } from "@/models/user";
 import { PermissionService } from "@/service/permission-service";
 import { createContextLogger } from "@/utils/context-logger";
 import { Maybe } from "@banjoanton/utils";

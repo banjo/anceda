@@ -1,4 +1,4 @@
-import { OrganizationType } from "@/server/core/models/organization";
+import { OrganizationType } from "@/models/organization";
 import { z } from "zod";
 
 export const CreateOrganizationSchema = z.object({

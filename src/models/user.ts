@@ -1,10 +1,5 @@
 import { ApiFullSession } from "@/server/auth";
-import {
-    OrganizationRole,
-    parseOrganizationRole,
-    parseUserRole,
-    UserRole,
-} from "@/server/core/models/role";
+import { OrganizationRole, parseOrganizationRole, parseUserRole, UserRole } from "@/models/role";
 import { Maybe } from "@banjoanton/utils";
 import { OrganizationType } from "@prisma/client";
 

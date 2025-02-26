@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { User } from "../core/models/user";
+import { User } from "../../models/user";
 import { adminMiddleware } from "../core/middleware/admin-middleware";
 import { authMiddleware } from "../core/middleware/auth-middleware";
 

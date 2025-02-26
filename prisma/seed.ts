@@ -1,5 +1,5 @@
 import { prisma } from "@/db";
-import { OrganizationRole, UserRole } from "@/server/core/models/role";
+import { OrganizationRole, UserRole } from "@/models/role";
 import { OrganizationType } from "@prisma/client";
 
 async function main() {

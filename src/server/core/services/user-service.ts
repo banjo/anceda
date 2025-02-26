@@ -1,7 +1,7 @@
 import { prisma } from "@/db";
-import { Organization } from "@/server/core/models/organization";
+import { Organization } from "@/models/organization";
 import { ORGANIZATION_INCLUDE_CLAUSE } from "@/server/core/models/prisma";
-import { OrganizationRole, parseOrganizationRole } from "@/server/core/models/role";
+import { OrganizationRole, parseOrganizationRole } from "@/models/role";
 import { createContextLogger } from "@/utils/context-logger";
 import { AsyncResultType, Result } from "@/utils/result";
 import { to } from "@banjoanton/utils";

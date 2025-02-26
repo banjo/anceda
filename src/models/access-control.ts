@@ -1,4 +1,4 @@
-import { OrganizationRole } from "@/server/core/models/role";
+import { OrganizationRole } from "@/models/role";
 
 export const Action = {
     CREATE: "CREATE",

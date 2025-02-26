@@ -1,5 +1,5 @@
 import { UnauthorizedResponse } from "@/server/api/controller-model";
-import { User } from "@/server/core/models/user";
+import { User } from "@/models/user";
 import { createContextLogger } from "@/utils/context-logger";
 import { Maybe } from "@banjoanton/utils";
 import { OrganizationType } from "@prisma/client";
