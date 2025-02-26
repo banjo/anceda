@@ -26,6 +26,22 @@ function DashboardOverview() {
         console.log({ data });
     };
 
+    const onInviteToSecondary = async () => {
+        const res = await client.api.organization.secondary.invite.$post({
+            json: { email: "dave@tjenare.com", organizationId: auth.user?.organizationId ?? "" },
+        });
+        const data = await res.json();
+        console.log({ data });
+    };
+
+    const onAcceptInvite = async () => {
+        const res = await client.api.public.invite.accept.$post({
+            json: { token: "cm7mcb7ai0003sf2djzpayp89" },
+        });
+        const data = await res.json();
+        console.log({ data });
+    };
+
     return (
         <div className="container mx-auto">
             <header className="flex justify-between items-center mb-6">
@@ -36,6 +52,8 @@ function DashboardOverview() {
                 <Button onClick={onLogout}>Logout</Button>
                 <Button onClick={onAdmin}>Admin</Button>
                 <Button onClick={onCreateSecondary}>Create secondary</Button>
+                <Button onClick={onInviteToSecondary}>Invite to secondary</Button>
+                <Button onClick={onAcceptInvite}>Accept invite</Button>
             </div>
 
             {auth.isAuthenticated ? `Signed in to ${auth.user.email}` : "Not signed in"}

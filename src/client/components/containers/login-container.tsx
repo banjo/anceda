@@ -19,6 +19,7 @@ import {
 import { Input } from "@/client/components/ui/input";
 import { useAuth } from "@/client/core/providers/auth-provider";
 import { AuthLogin, AuthLoginSchema } from "@/models/auth-login";
+import { Env } from "@/utils/env";
 import { Maybe } from "@banjoanton/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
@@ -28,6 +29,7 @@ import { useTranslation } from "react-i18next";
 
 export const LoginContainer = () => {
     const { t } = useTranslation();
+    const env = Env.client();
 
     const form = useForm<AuthLogin>({
         resolver: zodResolver(AuthLoginSchema),
@@ -47,8 +49,8 @@ export const LoginContainer = () => {
         setError(undefined);
 
         const res = await signIn({
-            email: "test@test.com",
-            password: "123qweASD",
+            email,
+            password,
         });
 
         if (!res.ok) {
@@ -106,10 +108,24 @@ export const LoginContainer = () => {
                     </form>
                 </Form>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2">
                 <Button className="w-full" type="submit" form="login-form" disabled={isLoading}>
                     {isLoading ? t("index.login.loggingIn") : t("index.login.logIn")}
                 </Button>
+
+                {env.DEV ? (
+                    <Button
+                        className="w-full"
+                        onClick={async () =>
+                            onSubmit({
+                                email: "test@test.com",
+                                password: "123qweASD",
+                            })
+                        }
+                    >
+                        Admin login
+                    </Button>
+                ) : null}
             </CardFooter>
         </Card>
     );

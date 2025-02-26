@@ -1,5 +1,6 @@
 import { prisma } from "@/db";
 import { OrganizationRole, UserRole } from "@/models/role";
+import { auth } from "@/server/auth";
 import { OrganizationType } from "@prisma/client";
 
 async function main() {
@@ -12,13 +13,14 @@ async function main() {
         },
     });
 
+    const ctx = await auth.$context;
+    const password = await ctx.password.hash("123qweASD");
+
     await prisma.account.create({
         data: {
             accountId: "test",
             providerId: "credential",
-            // password: "123qweASD"
-            password:
-                "8361b75a124f348683a83f583bef7e3a:133bf6f26d7991c2cacf56945649dc82e7b86f48124afec5eba39a6e02586a5d73dc541f317de68e047ecc768c24915a816dcf1130a5901e34e04fa2f894baa3",
+            password,
             user: {
                 connect: {
                     id: user.id,

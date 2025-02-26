@@ -9,6 +9,7 @@ export const parseUserRole = (role: unknown): UserRole => {
         case UserRole.ADMIN:
             return UserRole.ADMIN;
         case UserRole.USER:
+            return UserRole.USER;
         default:
             throw new Error(`Invalid user role: ${role}`);
     }

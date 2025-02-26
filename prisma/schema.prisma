@@ -98,7 +98,7 @@ model Organization {
   type OrganizationType @default(PRIMARY)
 
   // For primary organizations
-  invitedOrganizations Organization[] @relation("OrganizationInvitations") 
+  invitedOrganizations Organization[] @relation("OrganizationInvitations")
 
   // For secondary organizations
   primaryOrganization   Organization? @relation("OrganizationInvitations", fields: [primaryOrganizationId], references: [id])
@@ -121,16 +121,24 @@ model Member {
   @@map("member")
 }
 
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
 model Invitation {
-  id             String       @id @default(cuid())
+  id             String           @id @default(cuid())
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   email          String
   role           String
-  status         String
+  status         InvitationStatus
   expiresAt      DateTime
   inviterId      String
-  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+  user           User             @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
   @@map("invitation")
 }
