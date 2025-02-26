@@ -1,7 +1,8 @@
 import { PERMISSIONS, Resource, ValidPermissions } from "@/models/access-control";
 import { OrganizationRole } from "@/server/core/models/role";
+import { User } from "@/server/core/models/user";
 
-export const hasPermission = <R extends Resource>(
+const hasPermission = <R extends Resource>(
     role: OrganizationRole,
     resource: R,
     action: ValidPermissions[R][number]
@@ -12,4 +13,15 @@ export const hasPermission = <R extends Resource>(
     }
 
     return allowedActions.includes(action);
+};
+
+const userHasPermission = <R extends Resource>(
+    user: User,
+    resource: R,
+    action: ValidPermissions[R][number]
+): boolean => hasPermission(user.organizationRole, resource, action);
+
+export const PermissionService = {
+    hasPermission,
+    userHasPermission,
 };

@@ -24,6 +24,7 @@ export const auth = betterAuth({
                     ...user,
                     organizationId: orgResult.data.id,
                     organizationRole: orgResult.data.role,
+                    organizationType: orgResult.data.type,
                 },
                 session,
             };
@@ -46,6 +47,7 @@ export const auth = betterAuth({
 export type CustomApiUserData = {
     organizationId: string;
     organizationRole: string;
+    organizationType: string;
 };
 
 export type ApiUser = typeof auth.$Infer.Session.user & CustomApiUserData;

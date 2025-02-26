@@ -1,6 +1,6 @@
 import { OrganizationRole, parseOrganizationRole } from "@/server/core/models/role";
 import { invariant } from "@banjoanton/utils";
-import { OrganizationType, Prisma, Organization as PrismaOrganization } from "@prisma/client";
+import { Prisma, Organization as PrismaOrganization } from "@prisma/client";
 
 // TYPES
 type DatabaseOrganization = Prisma.OrganizationGetPayload<{
@@ -27,13 +27,20 @@ export type Invitation = {
     expiresAt: Date;
 };
 
+export const OrganizationType = {
+    PRIMARY: "PRIMARY",
+    SECONDARY: "SECONDARY",
+} as const;
+
+export type OrganizationType = keyof typeof OrganizationType;
+
 type OrganizationBase = {
     id: string;
     name: string;
     slug?: string;
     logo?: string;
     createdAt: Date;
-    orgnizationType: OrganizationType;
+    type: OrganizationType;
 };
 
 type FullOrganization = OrganizationBase & {
@@ -42,12 +49,12 @@ type FullOrganization = OrganizationBase & {
 };
 
 export type PrimaryOrganization = FullOrganization & {
-    orgnizationType: "PRIMARY";
+    type: "PRIMARY";
     invitedOrganizations: OrganizationBase[]; // Organization IDs
 };
 
 export type SecondaryOrganization = FullOrganization & {
-    orgnizationType: "SECONDARY";
+    type: "SECONDARY";
     primaryOrganization: OrganizationBase;
 };
 
@@ -64,7 +71,7 @@ const baseFromDb = (org: PrismaOrganization): OrganizationBase => ({
     slug: org.slug ?? undefined,
     logo: org.logo ?? undefined,
     createdAt: org.createdAt,
-    orgnizationType: org.type,
+    type: org.type,
 });
 
 const fullFromDb = (org: DatabaseOrganization): FullOrganization => {
@@ -91,10 +98,10 @@ const fullFromDb = (org: DatabaseOrganization): FullOrganization => {
 const fromDb = (org: DatabaseOrganization): Organization => {
     const base = fullFromDb(org);
 
-    if (org.type === "PRIMARY") {
+    if (org.type === OrganizationType.PRIMARY) {
         return {
             ...base,
-            orgnizationType: "PRIMARY",
+            type: OrganizationType.PRIMARY,
             invitedOrganizations: org.invitedOrganizations.map(baseFromDb),
         };
     }
@@ -105,7 +112,7 @@ const fromDb = (org: DatabaseOrganization): Organization => {
     return {
         ...base,
         primaryOrganization: baseFromDb(org.primaryOrganization),
-        orgnizationType: "SECONDARY",
+        type: OrganizationType.SECONDARY,
     };
 };
 

@@ -1,4 +1,4 @@
-import { OrganizationType } from "@prisma/client";
+import { OrganizationType } from "@/server/core/models/organization";
 import { z } from "zod";
 
 export const CreateOrganizationSchema = z.object({

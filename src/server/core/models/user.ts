@@ -6,6 +6,7 @@ import {
     UserRole,
 } from "@/server/core/models/role";
 import { Maybe } from "@banjoanton/utils";
+import { OrganizationType } from "@prisma/client";
 
 export type User = {
     id: string;
@@ -18,6 +19,7 @@ export type User = {
     createdAt: Date;
     organizationId: string;
     organizationRole: OrganizationRole;
+    organizationType: OrganizationType;
 };
 
 export const User = {
@@ -29,6 +31,10 @@ export const User = {
             id: user.id,
             organizationId: user.organizationId,
             organizationRole: parseOrganizationRole(user.organizationRole),
+            organizationType:
+                user.organizationType === OrganizationType.PRIMARY
+                    ? OrganizationType.PRIMARY
+                    : OrganizationType.SECONDARY,
             createdAt: user.createdAt,
             email: user.email,
             image: user.image ?? undefined,
