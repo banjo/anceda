@@ -1,5 +1,6 @@
 import { Config } from "@/config";
 import { prisma } from "@/db";
+import { UserRole } from "@/models/role";
 import { UserService } from "@/server/core/services/user-service";
 import { createContextLogger } from "@/utils/context-logger";
 import { betterAuth } from "better-auth";
@@ -10,7 +11,10 @@ const logger = createContextLogger("auth");
 
 export const auth = betterAuth({
     plugins: [
-        admin(),
+        admin({
+            defaultRole: UserRole.USER,
+            adminRole: UserRole.ADMIN,
+        }),
         customSession(async ({ user, session }) => {
             const orgResult = await UserService.getActiveOrganization(user.id);
 
