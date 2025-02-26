@@ -11,6 +11,7 @@ export const useIsAuthRoute = () => {
 
     useEffect(() => {
         if (!auth.isPending && !auth.isAuthenticated) {
+            console.log("Redirecting to home page");
             navigate({ to: "/" });
         }
     }, [auth, navigate]);

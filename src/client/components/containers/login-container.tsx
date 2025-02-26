@@ -20,7 +20,7 @@ import { Input } from "@/client/components/ui/input";
 import { useAuth } from "@/client/core/providers/auth-provider";
 import { AuthLogin, AuthLoginSchema } from "@/models/auth-login";
 import { Env } from "@/utils/env";
-import { Maybe } from "@banjoanton/utils";
+import { Maybe, sleep } from "@banjoanton/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
@@ -58,6 +58,9 @@ export const LoginContainer = () => {
             setIsLoading(false);
             return;
         }
+
+        // Add a small delay for better auth login flaky thingy
+        await sleep(10);
 
         await navigate({ to: "/dashboard/overview" });
         setIsLoading(false);
