@@ -3,13 +3,13 @@ import { ResultType } from "@/utils/result";
 import { Context } from "hono";
 import { JSONValue } from "hono/utils/types";
 
-type ControllerErrorData = {
+export type ControllerErrorData = {
     message: string;
     meta?: Record<string, unknown>;
 };
 
 export type ControllerErrorDataWithSuccessInfo = ControllerErrorData & {
-    success: boolean;
+    success: false;
 };
 
 const decorateWithSuccessFalse = (

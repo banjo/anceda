@@ -1,4 +1,4 @@
-import { ApiError } from "@/client/core/models/api-error";
+import { ApiError } from "@/models/api-error";
 import { ControllerErrorData } from "@/server/api/controller-model";
 import { InferResponseType } from "hono";
 import { ClientResponse } from "hono/client";

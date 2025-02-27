@@ -15,7 +15,7 @@ const logger = createContextLogger("organization-controller");
 
 export const organizationController = createAuthorizedApiInstance()
     .get("/:id", async c => {
-        logger.info("Getting organizations request");
+        logger.debug("Getting organizations request");
         const id = c.req.param("id");
 
         const res = await OrganizationService.get(id);

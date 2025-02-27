@@ -28,7 +28,7 @@ function DashboardOverview() {
 
     const onInviteToSecondary = async () => {
         const res = await client.api.organization.secondary.invite.$post({
-            json: { email: "dave@tjenare.com", organizationId: auth.user?.organizationId ?? "" },
+            json: { email: "daver@tjenare.com", organizationId: auth.user?.organizationId ?? "" },
         });
         const data = await res.json();
         console.log({ data });

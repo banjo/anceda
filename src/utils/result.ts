@@ -1,6 +1,6 @@
 import { createResultWithType, ResultWithType } from "@banjoanton/utils";
 
-type ErrorType =
+export type ErrorType =
     | "UNAUTHORIZED"
     | "FORBIDDEN"
     | "NOT_FOUND"
