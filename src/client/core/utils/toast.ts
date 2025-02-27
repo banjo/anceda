@@ -9,6 +9,6 @@ const success = (message: string) => {
     toast.success(message);
 };
 
-const Provider = () => <Toaster position="bottom-right" />;
+const Provider = () => Toaster({ position: "bottom-right" });
 
 export const Toast = { error, success, Provider };

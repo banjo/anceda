@@ -2,6 +2,7 @@ import { client } from "@/client/client";
 import { Button } from "@/client/components/ui/button";
 import { useAuth } from "@/client/core/providers/auth-provider";
 import { FetchService } from "@/client/core/services/fetch-service";
+import { Toast } from "@/client/core/utils/toast";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/dashboard/overview")({
@@ -19,6 +20,7 @@ function DashboardOverview() {
         const res = await client.api.admin.organizations.$get();
         const data = await res.json();
         console.log({ data });
+        Toast.success("Success message :)");
     };
 
     const onCreateSecondary = async () => {
