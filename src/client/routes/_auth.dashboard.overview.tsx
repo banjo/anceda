@@ -1,6 +1,7 @@
 import { client } from "@/client/client";
 import { Button } from "@/client/components/ui/button";
 import { useAuth } from "@/client/core/providers/auth-provider";
+import { FetchService } from "@/client/core/services/fetch-service";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/dashboard/overview")({
@@ -27,10 +28,14 @@ function DashboardOverview() {
     };
 
     const onInviteToSecondary = async () => {
-        const res = await client.api.organization.secondary.invite.$post({
-            json: { email: "daver@tjenare.com", organizationId: auth.user?.organizationId ?? "" },
-        });
-        const data = await res.json();
+        const data = await FetchService.queryByClient(() =>
+            client.api.organization.secondary.invite.$post({
+                json: {
+                    email: "daver@tjenare.com",
+                    organizationId: auth.user?.organizationId ?? "",
+                },
+            })
+        );
         console.log({ data });
     };
 

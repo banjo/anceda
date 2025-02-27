@@ -1,12 +1,12 @@
+import { Toast } from "@/client/core/utils/toast";
 import { ApiError } from "@/models/api-error";
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PropsWithChildren } from "react";
-import toast from "react-hot-toast";
 
 export const queryClient = new QueryClient({
     queryCache: new QueryCache({
         onError: (error: Error) => {
-            toast.error(error.message);
+            Toast.error(error);
             if (ApiError.isApiError(error)) {
                 console.error(error);
             } else {
@@ -21,7 +21,7 @@ export const queryClient = new QueryClient({
         },
         mutations: {
             onError: (error: Error) => {
-                toast.error(error.message);
+                Toast.error(error);
             },
         },
     },

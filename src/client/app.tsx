@@ -11,6 +11,7 @@ import {
 } from "@/client/core/providers/global-loading-provider";
 import { QueryProvider } from "@/client/core/providers/query-provider";
 import { routeTree } from "@/client/routeTree.gen";
+import { Toast } from "@/client/core/utils/toast";
 
 const router = createRouter({
     routeTree,
@@ -43,7 +44,7 @@ const App = () => (
         <QueryProvider>
             <GlobalLoadingProvider>
                 <SidebarProvider>
-                    <Toaster position="bottom-right" />
+                    <Toast.Provider />
                     <InnerApp />
                 </SidebarProvider>
             </GlobalLoadingProvider>
