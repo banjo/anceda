@@ -11,7 +11,13 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/client/components/ui/sidebar";
-import { AudioWaveform, Command, GalleryVerticalEnd, Map, SquareTerminal } from "lucide-react";
+import {
+    AudioWaveform,
+    Command,
+    GalleryVerticalEnd,
+    Handshake,
+    SquareTerminal,
+} from "lucide-react";
 
 // This is sample data.
 const data = {
@@ -54,14 +60,10 @@ export const AppSidebar = ({ ...props }) => {
             isCollapsible: false,
         },
         {
-            name: "Organization",
-            url: "/dashboard/organization",
-            icon: Command,
+            name: "Partners",
+            url: "/dashboard/partners",
+            icon: Handshake,
             isCollapsible: false,
-            items: [
-                { title: "Members", url: "/dashboard/organization/members", icon: Map },
-                { title: "Teams", url: "/dashboard/organization/teams" },
-            ],
         },
     ];
     return (

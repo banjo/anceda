@@ -9,7 +9,7 @@ type SidebarGroupContainerProps = {
     entries: SidebarEntry[];
 };
 export const SidebarGroupContainer = ({ entries, name }: SidebarGroupContainerProps) => (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup>
         <SidebarGroupLabel>{name}</SidebarGroupLabel>
         <SidebarMenu>
             {entries.map(entry => {
