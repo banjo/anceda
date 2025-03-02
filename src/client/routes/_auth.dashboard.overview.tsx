@@ -4,6 +4,7 @@ import { Button } from "@/client/components/ui/button";
 import { useAuth } from "@/client/core/providers/auth-provider";
 import { FetchService } from "@/client/core/services/fetch-service";
 import { Toast } from "@/client/core/utils/toast";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/dashboard/overview")({
@@ -18,37 +19,54 @@ function DashboardOverview() {
     };
 
     const onAdmin = async () => {
-        const res = await client.api.admin.organizations.$get();
-        const data = await res.json();
+        const [error, data] = await FetchService.queryWithErrorHandling(
+            client.api.admin.organizations.$get
+        );
+
+        if (error) {
+            console.error(error);
+            return;
+        }
         console.log({ data });
         Toast.success("Success message :)");
     };
 
-    const onCreateSecondary = async () => {
-        const res = await client.api.organization.secondary.$post({ json: { name: "test" } });
-        const data = await res.json();
-        console.log({ data });
-    };
+    const createSecondaryMutation = useMutation({
+        mutationFn: async () =>
+            FetchService.queryByClient(() =>
+                client.api.organization.secondary.$post({ json: { name: "test" } })
+            ),
+        onSuccess: data => {
+            console.log({ data });
+        },
+    });
 
-    const onInviteToSecondary = async () => {
-        const data = await FetchService.queryByClient(() =>
-            client.api.organization.secondary.invite.$post({
-                json: {
-                    email: "daver@tjenare.com",
-                    organizationId: auth.user?.organizationId ?? "",
-                },
-            })
-        );
-        console.log({ data });
-    };
+    const inviteToSecondaryMutation = useMutation({
+        mutationFn: async () =>
+            FetchService.queryByClient(() =>
+                client.api.organization.secondary.invite.$post({
+                    json: {
+                        email: "daver@tjenare.com",
+                        organizationId: auth.user?.organizationId ?? "",
+                    },
+                })
+            ),
+        onSuccess: data => {
+            console.log({ data });
+        },
+    });
 
-    const onAcceptInvite = async () => {
-        const res = await client.api.public.invite.accept.$post({
-            json: { token: "cm7mcb7ai0003sf2djzpayp89" },
-        });
-        const data = await res.json();
-        console.log({ data });
-    };
+    const onAcceptMutation = useMutation({
+        mutationFn: async () =>
+            FetchService.queryByClient(() =>
+                client.api.public.invite.accept.$post({
+                    json: { token: "" },
+                })
+            ),
+        onSuccess: data => {
+            console.log({ data });
+        },
+    });
 
     return (
         <div className="container mx-auto">
@@ -59,9 +77,11 @@ function DashboardOverview() {
             <div className="flex gap-2">
                 <Button onClick={onLogout}>Logout</Button>
                 <Button onClick={onAdmin}>Admin</Button>
-                <Button onClick={onCreateSecondary}>Create secondary</Button>
-                <Button onClick={onInviteToSecondary}>Invite to secondary</Button>
-                <Button onClick={onAcceptInvite}>Accept invite</Button>
+                <Button onClick={() => createSecondaryMutation.mutate()}>Create secondary</Button>
+                <Button onClick={() => inviteToSecondaryMutation.mutate()}>
+                    Invite to secondary
+                </Button>
+                <Button onClick={() => onAcceptMutation.mutate()}>Accept invite</Button>
             </div>
 
             {auth.isAuthenticated ? `Signed in to ${auth.user.email}` : "Not signed in"}

@@ -1,5 +1,6 @@
 import { ApiError } from "@/models/api-error";
 import { ControllerErrorData } from "@/server/api/controller-model";
+import { to } from "@banjoanton/utils";
 import { InferResponseType } from "hono";
 import { ClientResponse } from "hono/client";
 
@@ -22,4 +23,8 @@ const queryByClient = async <T, TResponse extends () => Promise<ClientResponse<T
     return (await res.json()) as Awaited<InferResponseType<TResponse, 200>>;
 };
 
-export const FetchService = { queryByClient };
+const queryWithErrorHandling = async <T, TResponse extends () => Promise<ClientResponse<T>>>(
+    callback: TResponse
+) => await to(() => queryByClient(callback));
+
+export const FetchService = { queryByClient, queryWithErrorHandling };
