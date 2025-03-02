@@ -14,6 +14,14 @@ import { InviteUserSchema } from "@/server/api/models/invite-user-schema";
 const logger = createContextLogger("organization-controller");
 
 export const organizationController = createAuthorizedApiInstance()
+    .get("/mine", async c => {
+        // THIS IS THE ENDPOINT THAT MAKES IT STOP WORKING
+        logger.debug("Getting organizations request");
+        const { organizationId } = c.get("user");
+
+        const res = await OrganizationService.get(organizationId);
+        return createResponseFromResult(res, c);
+    })
     .get("/:id", async c => {
         logger.debug("Getting organizations request");
         const id = c.req.param("id");
