@@ -14,10 +14,18 @@ import { InviteUserSchema } from "@/server/api/models/invite-user-schema";
 const logger = createContextLogger("organization-controller");
 
 export const organizationController = createAuthorizedApiInstance()
-    .get("/:id", async c => {
+    .get("/mine", async c => {
+        logger.debug("Getting my organizations request");
+        const { organizationId } = c.get("user");
+
+        const res = await OrganizationService.get(organizationId);
+        return createResponseFromResult(res, c);
+    })
+    .get("/details/:id", async c => {
         logger.debug("Getting organizations request");
         const id = c.req.param("id");
 
+        // TODO: what should the permissions be here?
         const res = await OrganizationService.get(id);
         return createResponseFromResult(res, c);
     })

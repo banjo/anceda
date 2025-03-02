@@ -1,15 +1,14 @@
 import { createTransaction, prisma } from "@/db";
-import { CreateOrganizationType } from "@/server/api/models/create-organization-schema";
+import { ApiError, createResultFromApiError } from "@/models/api-error";
 import { InvitationStatus, Organization } from "@/models/organization";
+import { OrganizationRole, UserRole } from "@/models/role";
+import { CreateOrganizationType } from "@/server/api/models/create-organization-schema";
 import { ORGANIZATION_INCLUDE_CLAUSE } from "@/server/core/models/prisma";
+import { EmailService } from "@/server/core/services/email-service";
+import { UserService } from "@/server/core/services/user-service";
 import { createContextLogger } from "@/utils/context-logger";
 import { AsyncResultType, Result } from "@/utils/result";
 import { to, uuid } from "@banjoanton/utils";
-import { EmailService } from "@/server/core/services/email-service";
-import { OrganizationRole, UserRole } from "@/models/role";
-import { auth } from "@/server/auth";
-import { UserService } from "@/server/core/services/user-service";
-import { ApiError, createResultFromApiError } from "@/models/api-error";
 
 const logger = createContextLogger("organization-service");
 
@@ -37,6 +36,7 @@ const create = async (props: CreateOrganizationType): AsyncResultType<Organizati
 
 const get = async (id: string): AsyncResultType<Organization> => {
     logger.info({ id }, "Getting organization");
+
     const [error, organization] = await to(() =>
         prisma.organization.findUnique({
             where: { id },
