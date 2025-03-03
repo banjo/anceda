@@ -1,4 +1,4 @@
-import { Error } from "@/client/components/shared/error";
+import { FullScreenError } from "@/client/components/shared/error";
 import { AuthData } from "@/client/core/providers/auth-provider";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
@@ -21,9 +21,5 @@ const RootComponent = () => {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
     component: () => <RootComponent />,
-    errorComponent: ({ error }) => (
-        <div className="w-dvw h-dvh">
-            <Error error={error} />;
-        </div>
-    ),
+    errorComponent: ({ error }) => <FullScreenError error={error} />,
 });

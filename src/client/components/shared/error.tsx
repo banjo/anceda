@@ -8,3 +8,9 @@ export const Error = ({ error, title = "Something went wrong" }: Props) => (
         <p className="text-lg text-gray-500">{error.message}</p>
     </div>
 );
+
+export const FullScreenError = ({ error, title }: Props) => (
+    <div className="w-dvw h-dvh">
+        <Error error={error} title={title} />;
+    </div>
+);
