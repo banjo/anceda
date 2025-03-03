@@ -1,5 +1,6 @@
+import { Error } from "@/client/components/shared/error";
 import { AuthData } from "@/client/core/providers/auth-provider";
-import { createRootRouteWithContext, Outlet, redirect } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 type RouterContext = {
@@ -20,8 +21,9 @@ const RootComponent = () => {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
     component: () => <RootComponent />,
-    onError: (error: unknown) => {
-        console.log("Error", error);
-        throw redirect({ to: "/" });
-    },
+    errorComponent: ({ error }) => (
+        <div className="w-dvw h-dvh">
+            <Error error={error} />;
+        </div>
+    ),
 });
