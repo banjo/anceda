@@ -34,7 +34,7 @@ function DashboardOverview() {
     const createSecondaryMutation = useMutation({
         mutationFn: async () =>
             FetchService.queryByClient(() =>
-                client.api.organization.secondary.$post({ json: { name: "test" } })
+                client.api.organization.secondary.create.$post({ json: { name: "test" } })
             ),
         onSuccess: data => {
             console.log({ data });

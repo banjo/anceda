@@ -30,7 +30,7 @@ export const organizationController = createAuthorizedApiInstance()
         return createResponseFromResult(res, c);
     })
     .post(
-        "/secondary",
+        "/secondary/create",
         permissionMiddleware(Resource.SECONDARY_ORGANIZATION, Action.CREATE),
         organizationMiddleware(OrganizationType.PRIMARY),
         sValidator("json", z.object({ name: z.string() })),
