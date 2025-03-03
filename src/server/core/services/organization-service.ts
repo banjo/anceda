@@ -129,7 +129,16 @@ const inviteUserToOrganization = async ({
     return Result.ok();
 };
 
-const acceptInvite = async (token: string): AsyncResultType<void> => {
+type AcceptInviteProps = {
+    token: string;
+    name: string;
+    password: string;
+};
+const acceptInvite = async ({
+    token,
+    name,
+    password,
+}: AcceptInviteProps): AsyncResultType<void> => {
     logger.info({ token }, "Accepting invite");
 
     const [transactionError] = await createTransaction(prisma, async tx => {
@@ -172,8 +181,8 @@ const acceptInvite = async (token: string): AsyncResultType<void> => {
         const createdUserResult = await UserService.create(
             {
                 email: invitation.email,
-                name: invitation.email, // TODO: ask for name
-                password: "password", // TODO: ask for password
+                name,
+                password,
                 role: UserRole.USER,
                 emailVerified: true,
             },

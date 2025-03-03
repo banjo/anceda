@@ -60,7 +60,7 @@ function DashboardOverview() {
         mutationFn: async () =>
             FetchService.queryByClient(() =>
                 client.api.public.invite.accept.$post({
-                    json: { token: "" },
+                    json: { token: "", name: "", password: "" },
                 })
             ),
         onSuccess: data => {

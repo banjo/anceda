@@ -9,12 +9,13 @@ const logger = createContextLogger("public-controller");
 
 export const publicController = createPublicApiInstance().post(
     "/invite/accept",
-    sValidator("json", z.object({ token: z.string() })),
+    sValidator("json", z.object({ token: z.string(), name: z.string(), password: z.string() })),
     async c => {
         logger.debug("Accepting invite request");
-        const { token } = c.req.valid("json");
+        const params = c.req.valid("json");
 
-        const res = await OrganizationService.acceptInvite(token);
+        // TODO: add validation
+        const res = await OrganizationService.acceptInvite(params);
         return createResponseFromResult(res, c);
     }
 );
