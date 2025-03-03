@@ -14,9 +14,8 @@ export const app = createPublicApiInstance()
     .use(logger())
     .use(cors({ origin: Config.trustedOrigins, credentials: true }))
     .route("/api", api)
+    .on(["POST", "GET"], "/api/auth/*", c => auth.handler(c.req.raw))
     .notFound(c => NotFoundResponse(c, { message: "Not found" }))
     .onError((err, c) => ErrorResponse(c, { message: err.message }));
-
-app.on(["POST", "GET"], "/api/auth/**", c => auth.handler(c.req.raw));
 
 export type AppType = typeof app;
