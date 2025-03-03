@@ -17,14 +17,8 @@ export class ApiError extends Error {
 }
 
 export const createResultFromApiError = (error: Error) => {
-    if (ApiError.isType(error, "BAD_REQUEST")) {
-        return Result.error(error.message, "BAD_REQUEST");
-    } else if (ApiError.isType(error, "NOT_FOUND")) {
-        return Result.error(error.message, "NOT_FOUND");
-    } else if (ApiError.isType(error, "UNAUTHORIZED")) {
-        return Result.error(error.message, "UNAUTHORIZED");
-    } else if (ApiError.isType(error, "FORBIDDEN")) {
-        return Result.error(error.message, "FORBIDDEN");
+    if (ApiError.isApiError(error)) {
+        return Result.error(error.message, error.type);
     }
 
     return Result.error(error.message, "INTERNAL_SERVER_ERROR");
