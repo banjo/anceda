@@ -25,7 +25,7 @@ function DashboardOverview() {
         );
 
         if (error) {
-            console.error(error);
+            Toast.error(error.message);
             return;
         }
         console.log({ data });
@@ -68,6 +68,8 @@ function DashboardOverview() {
             console.log({ data });
         },
     });
+
+    console.log({ data: onAcceptMutation.data, error: onAcceptMutation.error });
 
     return (
         <div className="container mx-auto">
