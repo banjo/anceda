@@ -25,8 +25,8 @@ const decorate = (data: ControllerErrorDataBase): ControllerErrorData => {
 
 const logger = createContextLogger("controller-model");
 
-export const SuccessResponse = <TData extends JSONValue | void>(c: Context, data: TData) =>
-    c.json(data ? data : { success: true }, 200);
+export const SuccessResponse = <TData extends JSONValue>(c: Context, data: TData) =>
+    c.json(data, 200);
 export const ErrorResponse = (c: Context, data: ControllerErrorDataBase) =>
     c.json(decorate(data), 500);
 export const NotFoundResponse = (c: Context, data: ControllerErrorDataBase) =>
@@ -36,10 +36,7 @@ export const UnauthorizedResponse = (c: Context, data: ControllerErrorDataBase) 
 export const ForbiddenResponse = (c: Context, data: ControllerErrorDataBase) =>
     c.json(decorate(data), 403);
 
-export const createResponseFromResult = <T extends JSONValue | void>(
-    res: ResultType<T>,
-    c: Context
-) => {
+export const createResponseFromResult = <T extends JSONValue>(res: ResultType<T>, c: Context) => {
     if (res.ok) {
         logger.info("Successfully handled request");
         return SuccessResponse(c, res.data);

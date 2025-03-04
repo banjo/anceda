@@ -1,5 +1,6 @@
 import { client } from "@/client/client";
 import { OrganizationContainer } from "@/client/components/containers/organization-container";
+import { SuspenseLoader } from "@/client/components/shared/suspense-loader";
 import { Button } from "@/client/components/ui/button";
 import { useAuth } from "@/client/core/providers/auth-provider";
 import { FetchService } from "@/client/core/services/fetch-service";
@@ -87,7 +88,9 @@ function DashboardOverview() {
             {auth.isAuthenticated ? `Signed in to ${auth.user.email}` : "Not signed in"}
 
             <div>
-                <OrganizationContainer />
+                <SuspenseLoader>
+                    <OrganizationContainer />
+                </SuspenseLoader>
             </div>
         </div>
     );
