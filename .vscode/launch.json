@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${file}",
             "runtimeExecutable": "tsx",
-            "runtimeArgs": ["--tsconfig", "${workspaceFolder}/tsconfig.json"],
+            "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
