@@ -13,12 +13,12 @@ export const adminController = createAdminApiInstance()
         logger.info("Getting organizations request");
 
         const res = await AdminService.getAllOrganizations();
-        return createResponseFromResult(res, c);
+        return createResponseFromResult(c, res);
     })
     .post("/organization", sValidator("json", CreateOrganizationSchema), async c => {
         const body = c.req.valid("json");
         logger.info({ name: body.name }, "Creating organization request");
 
         const res = await OrganizationService.create(body);
-        return createResponseFromResult(res, c);
+        return createResponseFromResult(c, res);
     });

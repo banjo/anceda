@@ -1,6 +1,6 @@
 import { getApiContext } from "@/server/api/context";
 import { createContextLogger } from "@/utils/context-logger";
-import { ResultType } from "@/utils/result";
+import { Result, ResultType } from "@/utils/result";
 import { Context } from "hono";
 import { JSONValue } from "hono/utils/types";
 
@@ -36,9 +36,10 @@ export const UnauthorizedResponse = (c: Context, data: ControllerErrorDataBase) 
 export const ForbiddenResponse = (c: Context, data: ControllerErrorDataBase) =>
     c.json(decorate(data), 403);
 
-export const createResponseFromResult = <T extends JSONValue>(res: ResultType<T>, c: Context) => {
+export const createResponseFromResult = <T extends JSONValue>(c: Context, res: ResultType<T>) => {
     if (res.ok) {
         logger.info("Successfully handled request");
+
         return SuccessResponse(c, res.data);
     }
 
@@ -54,3 +55,6 @@ export const createResponseFromResult = <T extends JSONValue>(res: ResultType<T>
             return ErrorResponse(c, decorate({ message: res.message }));
     }
 };
+
+export const createResponseFromVoidResult = (c: Context, _: ResultType<void>) =>
+    createResponseFromResult(c, Result.ok({ success: true }));

@@ -1,5 +1,5 @@
 import { createPublicApiInstance } from "@/server/api/api-instance";
-import { createResponseFromResult } from "@/server/api/controller-model";
+import { createResponseFromVoidResult } from "@/server/api/controller-model";
 import { OrganizationService } from "@/server/core/services/organization-service";
 import { createContextLogger } from "@/utils/context-logger";
 import { sValidator } from "@hono/standard-validator";
@@ -16,6 +16,6 @@ export const publicController = createPublicApiInstance().post(
 
         // TODO: add validation
         const res = await OrganizationService.acceptInvite(params);
-        return createResponseFromResult(res, c);
+        return createResponseFromVoidResult(c, res);
     }
 );

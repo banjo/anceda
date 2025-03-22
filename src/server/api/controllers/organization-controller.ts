@@ -1,6 +1,9 @@
 import { Action, Resource } from "@/models/access-control";
 import { createAuthorizedApiInstance } from "@/server/api/api-instance";
-import { createResponseFromResult } from "@/server/api/controller-model";
+import {
+    createResponseFromResult,
+    createResponseFromVoidResult,
+} from "@/server/api/controller-model";
 import { organizationMiddleware } from "@/server/core/middleware/organization-middleware";
 import { permissionMiddleware } from "@/server/core/middleware/permission-middleware";
 import { OrganizationType } from "@/models/organization";
@@ -19,7 +22,7 @@ export const organizationController = createAuthorizedApiInstance()
         const { organizationId } = c.get("user");
 
         const res = await OrganizationService.get(organizationId);
-        return createResponseFromResult(res, c);
+        return createResponseFromResult(c, res);
     })
     .get("/details/:id", async c => {
         logger.debug("Getting organizations request");
@@ -27,7 +30,7 @@ export const organizationController = createAuthorizedApiInstance()
 
         // TODO: what should the permissions be here?
         const res = await OrganizationService.get(id);
-        return createResponseFromResult(res, c);
+        return createResponseFromResult(c, res);
     })
     .post(
         "/secondary/create",
@@ -45,7 +48,7 @@ export const organizationController = createAuthorizedApiInstance()
                 primaryOrganizationId: organizationId,
             });
 
-            return createResponseFromResult(res, c);
+            return createResponseFromResult(c, res);
         }
     )
     .post(
@@ -65,7 +68,7 @@ export const organizationController = createAuthorizedApiInstance()
                 role: OrganizationRole.SECONDARY_OWNER,
             });
 
-            return createResponseFromResult(res, c);
+            return createResponseFromVoidResult(c, res);
         }
     )
     .post(
@@ -84,6 +87,6 @@ export const organizationController = createAuthorizedApiInstance()
                 role,
             });
 
-            return createResponseFromResult(res, c);
+            return createResponseFromVoidResult(c, res);
         }
     );
