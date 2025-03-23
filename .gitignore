@@ -10,3 +10,4 @@ build-web
 dev.db*
 rest
 playground.ts
+.aider*

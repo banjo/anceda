@@ -37,6 +37,12 @@ const ServerEnvSchema = z.object({
         .default("development"),
     LOG_LEVEL: logLevelSchema,
     DATABASE_URL: z.string(),
+
+    // S3 Configuration
+    S3_BUCKET: z.string(),
+    S3_REGION: z.string(),
+    S3_ACCESS_KEY: z.string(),
+    S3_SECRET_KEY: z.string(),
 });
 
 const server = () => {

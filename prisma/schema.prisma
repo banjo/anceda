@@ -84,15 +84,16 @@ enum OrganizationType {
 }
 
 model Organization {
-  id          String       @id @default(cuid())
-  name        String
-  slug        String?
-  logo        String?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  metadata    String?
-  members     Member[]
-  invitations Invitation[]
+  id                  String             @id @default(cuid())
+  name                String
+  slug                String?
+  logo                String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  members             Member[]
+  invitations         Invitation[]
+  collections         Collection[]
+  accessedCollections CollectionAccess[]
 
   // Custom data
   type OrganizationType @default(PRIMARY)
@@ -141,4 +142,56 @@ model Invitation {
   updatedAt      DateTime         @updatedAt
 
   @@map("invitation")
+}
+
+// --- IMAGES
+model Collection {
+  id               String             @id @default(cuid())
+  name             String
+  description      String?
+  organizationId   String
+  organization     Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  images           Image[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  isPublic         Boolean            @default(false)
+  CollectionAccess CollectionAccess[]
+
+  @@map("collection")
+}
+
+model Image {
+  id           String     @id @default(cuid())
+  filename     String
+  originalName String?
+  path         String // R2/S3 path
+  url          String // Public URL for accessing the image
+  mimeType     String
+  size         Int // Size in bytes
+  width        Int?
+  height       Int?
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  // Fields for future AI processing and tagging
+  tags String[] @default([])
+
+  @@map("image")
+}
+
+model CollectionAccess {
+  id             String       @id @default(cuid())
+  collectionId   String
+  collection     Collection   @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  grantedById    String? // ID of the user who granted access
+  expiresAt      DateTime? // Optional expiration date for the access
+
+  @@unique([collectionId, organizationId])
+  @@map("collection_access")
 }

@@ -37,6 +37,8 @@
     "content:generate": "tsx ./scripts/generate-content.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.772.0",
+    "@aws-sdk/s3-request-presigner": "^3.772.0",
     "@banjoanton/utils": "^1.1.0",
     "@hono/node-server": "^1.13.8",
     "@hono/standard-validator": "^0.1.2",
