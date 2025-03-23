@@ -12,20 +12,21 @@ import { prisma } from "@/db";
 import { Image } from "@/models/image";
 import { Prisma } from "@prisma/client";
 import { Readable } from "node:stream";
+import { Env } from "@/utils/env";
 
 const logger = createContextLogger("image-service");
+const env = Env.server();
 
-// R2 client setup
 const s3Client = new S3Client({
     region: "auto",
-    endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     credentials: {
-        accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
-        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+        accessKeyId: env.R2_ACCESS_KEY_ID,
+        secretAccessKey: env.R2_SECRET_ACCESS_KEY,
     },
 });
 
-const BUCKET_NAME = process.env.R2_BUCKET_NAME || "images";
+const BUCKET_NAME = env.R2_BUCKET_NAME;
 const URL_EXPIRATION_SECONDS = toSeconds({ hours: 24 });
 
 type UploadImageProps = {
@@ -40,29 +41,6 @@ type UploadImageProps = {
     tags?: string[];
 };
 
-type UpdateImageProps = {
-    id: string;
-    originalName?: string;
-    tags?: string[];
-    collectionId?: string;
-};
-
-type GetImageSignedUrlProps = {
-    id: string;
-    expiresIn?: number;
-};
-
-type GetImagesProps = {
-    collectionId?: string;
-    ids?: string[];
-    limit?: number;
-    offset?: number;
-    tags?: string[];
-};
-
-/**
- * Upload an image to R2 and store metadata in the database
- */
 const uploadImage = async (props: UploadImageProps): AsyncResultType<Image> => {
     const {
         file,
@@ -220,9 +198,11 @@ const getImage = async (id: string): AsyncResultType<Image> => {
     return Result.ok(Image.fromDb(updatedImage));
 };
 
-/**
- * Get a signed URL for an image
- */
+type GetImageSignedUrlProps = {
+    id: string;
+    expiresIn?: number;
+};
+
 const getImageSignedUrl = async (props: GetImageSignedUrlProps): AsyncResultType<string> => {
     const { id, expiresIn = URL_EXPIRATION_SECONDS } = props;
 
@@ -263,6 +243,14 @@ const getImageSignedUrl = async (props: GetImageSignedUrlProps): AsyncResultType
 /**
  * Get multiple images with pagination and filtering options
  */
+type GetImagesProps = {
+    collectionId?: string;
+    ids?: string[];
+    limit?: number;
+    offset?: number;
+    tags?: string[];
+};
+
 const getImages = async (props: GetImagesProps): AsyncResultType<Image[]> => {
     const { collectionId, ids, limit = 50, offset = 0, tags } = props;
 
@@ -301,6 +289,13 @@ const getImages = async (props: GetImagesProps): AsyncResultType<Image[]> => {
 /**
  * Update image metadata
  */
+type UpdateImageProps = {
+    id: string;
+    originalName?: string;
+    tags?: string[];
+    collectionId?: string;
+};
+
 const updateImage = async (props: UpdateImageProps): AsyncResultType<Image> => {
     const { id, originalName, tags, collectionId } = props;
 

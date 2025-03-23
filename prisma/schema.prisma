@@ -190,7 +190,6 @@ model CollectionAccess {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   grantedById    String? // ID of the user who granted access
-  expiresAt      DateTime? // Optional expiration date for the access
 
   @@unique([collectionId, organizationId])
   @@map("collection_access")
