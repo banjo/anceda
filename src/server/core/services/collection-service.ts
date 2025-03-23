@@ -362,6 +362,6 @@ export const CollectionService = {
     updateCollection,
     addImages,
     removeImages,
-    inviteUser: inviteOrganization,
+    inviteOrganization,
     deleteCollection,
 };
