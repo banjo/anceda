@@ -293,13 +293,11 @@ type UpdateImageProps = {
     id: string;
     originalName?: string;
     tags?: string[];
-    collectionId?: string;
 };
 
 const updateImage = async (props: UpdateImageProps): AsyncResultType<Image> => {
-    const { id, originalName, tags, collectionId } = props;
+    const { id, originalName, tags } = props;
 
-    // Verify the image exists
     const [findError, existingImage] = await to(() =>
         prisma.image.findUnique({
             where: { id },
@@ -315,23 +313,6 @@ const updateImage = async (props: UpdateImageProps): AsyncResultType<Image> => {
         return Result.error("Image not found", "NOT_FOUND");
     }
 
-    // If changing collection, verify that the new collection exists
-    if (isDefined(collectionId) && collectionId !== existingImage.collectionId) {
-        const [collectionError, collection] = await to(() =>
-            prisma.collection.findUnique({ where: { id: collectionId } })
-        );
-
-        if (collectionError) {
-            logger.error({ error: collectionError, collectionId }, "Failed to find collection");
-            return Result.error("Failed to verify collection", "INTERNAL_SERVER_ERROR");
-        }
-
-        if (!collection) {
-            return Result.error("New collection not found", "NOT_FOUND");
-        }
-    }
-
-    // Prepare update data
     const updateData: Prisma.ImageUpdateInput = {};
 
     if (isDefined(originalName)) {
@@ -340,10 +321,6 @@ const updateImage = async (props: UpdateImageProps): AsyncResultType<Image> => {
 
     if (isDefined(tags)) {
         updateData.tags = tags;
-    }
-
-    if (isDefined(collectionId)) {
-        updateData.collection = { connect: { id: collectionId } };
     }
 
     const [dbError, updatedImage] = await to(() =>

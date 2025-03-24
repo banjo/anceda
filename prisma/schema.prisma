@@ -155,7 +155,7 @@ model Collection {
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   isPublic         Boolean            @default(false)
-  CollectionAccess CollectionAccess[]
+  collectionAccess CollectionAccess[]
 
   @@map("collection")
 }

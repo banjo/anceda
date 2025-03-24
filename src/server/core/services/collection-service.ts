@@ -59,9 +59,19 @@ const getCollection = async (id: string): AsyncResultType<Collection> => {
     return Result.ok(Collection.fromDb(dbCollection));
 };
 
-const getCollections = async (): AsyncResultType<Collection[]> => {
+type GetCollectionsProps = {
+    collectionIds: string[];
+};
+const getCollections = async ({
+    collectionIds,
+}: GetCollectionsProps): AsyncResultType<Collection[]> => {
     const [error, dbCollections] = await to(() =>
         prisma.collection.findMany({
+            where: {
+                id: {
+                    in: collectionIds,
+                },
+            },
             include: {
                 images: true,
             },
@@ -71,6 +81,28 @@ const getCollections = async (): AsyncResultType<Collection[]> => {
     if (error) {
         logger.error({ error }, "Failed to get collections");
         return Result.error("Failed to get collections", "INTERNAL_SERVER_ERROR");
+    }
+
+    return Result.ok(dbCollections.map(Collection.fromDb));
+};
+
+const getCreatedCollectionsByOrganization = async (
+    organizationId: string
+): AsyncResultType<Collection[]> => {
+    const [error, dbCollections] = await to(() =>
+        prisma.collection.findMany({
+            where: {
+                organizationId,
+            },
+            include: {
+                images: true,
+            },
+        })
+    );
+
+    if (error) {
+        logger.error({ error, organizationId }, "Failed to get collections by organization");
+        return Result.error("Failed to get collections by organization", "INTERNAL_SERVER_ERROR");
     }
 
     return Result.ok(dbCollections.map(Collection.fromDb));
@@ -254,7 +286,7 @@ type InviteOrganizationProps = {
     organizationId: string;
 };
 
-const inviteOrganization = async (props: InviteOrganizationProps): AsyncResultType<Collection> => {
+const inviteOrganization = async (props: InviteOrganizationProps): AsyncResultType => {
     const { collectionId, organizationId } = props;
 
     const [findError, existingCollection] = await to(() =>
@@ -269,6 +301,7 @@ const inviteOrganization = async (props: InviteOrganizationProps): AsyncResultTy
     }
 
     if (!existingCollection) {
+        logger.error({ collectionId }, "Collection not found");
         return Result.error("Collection not found", "NOT_FOUND");
     }
 
@@ -284,6 +317,7 @@ const inviteOrganization = async (props: InviteOrganizationProps): AsyncResultTy
     }
 
     if (!organization) {
+        logger.error({ organizationId }, "Organization not found");
         return Result.error("Organization not found", "NOT_FOUND");
     }
 
@@ -304,23 +338,7 @@ const inviteOrganization = async (props: InviteOrganizationProps): AsyncResultTy
         return Result.error("Failed to invite organization to collection", "INTERNAL_SERVER_ERROR");
     }
 
-    const [fullCollectionError, fullCollection] = await to(() =>
-        prisma.collection.findUnique({
-            where: { id: collectionId },
-            include: { images: true },
-        })
-    );
-
-    if (fullCollectionError) {
-        logger.error({ error: fullCollectionError, collectionId }, "Failed to get full collection");
-        return Result.error("Failed to get full collection", "INTERNAL_SERVER_ERROR");
-    }
-
-    if (!fullCollection) {
-        return Result.error("Collection not found", "NOT_FOUND");
-    }
-
-    return Result.ok(Collection.fromDb(fullCollection));
+    return Result.ok();
 };
 
 const deleteCollection = async (id: string): AsyncResultType<void> => {
@@ -359,6 +377,7 @@ export const CollectionService = {
     createCollection,
     getCollection,
     getCollections,
+    getCreatedCollectionsByOrganization,
     updateCollection,
     addImages,
     removeImages,
