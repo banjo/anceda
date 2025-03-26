@@ -13,6 +13,7 @@ import { Image } from "@/models/image";
 import { Prisma } from "@prisma/client";
 import { Readable } from "node:stream";
 import { Env } from "@/utils/env";
+import { ImagePathUtil, ImageVariant } from "@/server/core/utils/image-path-util";
 
 const logger = createContextLogger("image-service");
 const env = Env.server();
@@ -54,7 +55,6 @@ const uploadImage = async (props: UploadImageProps): AsyncResultType<Image> => {
         tags = [],
     } = props;
 
-    // Verify collection exists
     const [collectionError, collection] = await to(() =>
         prisma.collection.findUnique({ where: { id: collectionId } })
     );
@@ -68,13 +68,15 @@ const uploadImage = async (props: UploadImageProps): AsyncResultType<Image> => {
         return Result.error("Collection not found", "NOT_FOUND");
     }
 
-    // Generate unique path for the image
     const id = uuid();
+    const imageVariant: ImageVariant = "original";
+    const path = ImagePathUtil.create({
+        collectionId,
+        filename,
+        id,
+        imageVariant,
+    });
 
-    // TODO: make path name correct
-    const path = `${collectionId}/${id}-${filename}`;
-
-    // Upload to R2
     const [uploadError] = await to(() =>
         s3Client.send(
             new PutObjectCommand({
@@ -91,7 +93,6 @@ const uploadImage = async (props: UploadImageProps): AsyncResultType<Image> => {
         return Result.error("Failed to upload image", "INTERNAL_SERVER_ERROR");
     }
 
-    // Create signed URL
     const [urlError, signedUrl] = await to(() =>
         getSignedUrl(
             s3Client,
@@ -108,7 +109,6 @@ const uploadImage = async (props: UploadImageProps): AsyncResultType<Image> => {
         return Result.error("Failed to generate image URL", "INTERNAL_SERVER_ERROR");
     }
 
-    // Store metadata in database
     const [dbError, dbImage] = await to(() =>
         prisma.image.create({
             data: {
@@ -130,7 +130,6 @@ const uploadImage = async (props: UploadImageProps): AsyncResultType<Image> => {
     if (dbError) {
         logger.error({ error: dbError }, "Failed to store image metadata in database");
 
-        // Attempt to clean up R2 object since DB insertion failed
         await to(() =>
             s3Client.send(
                 new DeleteObjectCommand({
@@ -342,7 +341,6 @@ const updateImage = async (props: UpdateImageProps): AsyncResultType<Image> => {
  * Delete an image from R2 and the database
  */
 const deleteImage = async (id: string): AsyncResultType<void> => {
-    // Find the image to get the path
     const [findError, image] = await to(() =>
         prisma.image.findUnique({
             where: { id },
@@ -358,7 +356,6 @@ const deleteImage = async (id: string): AsyncResultType<void> => {
         return Result.error("Image not found", "NOT_FOUND");
     }
 
-    // Delete from R2
     const [r2Error] = await to(() =>
         s3Client.send(
             new DeleteObjectCommand({
@@ -373,7 +370,6 @@ const deleteImage = async (id: string): AsyncResultType<void> => {
         // Continue with database deletion even if R2 delete fails
     }
 
-    // Delete from database
     const [dbError] = await to(() =>
         prisma.image.delete({
             where: { id },
@@ -392,7 +388,6 @@ const deleteImage = async (id: string): AsyncResultType<void> => {
  * Download image data from R2
  */
 const downloadImage = async (id: string): AsyncResultType<Buffer> => {
-    // Find the image to get the path
     const [findError, image] = await to(() =>
         prisma.image.findUnique({
             where: { id },
@@ -408,7 +403,6 @@ const downloadImage = async (id: string): AsyncResultType<Buffer> => {
         return Result.error("Image not found", "NOT_FOUND");
     }
 
-    // Download from R2
     const [r2Error, r2Response] = await to(() =>
         s3Client.send(
             new GetObjectCommand({
